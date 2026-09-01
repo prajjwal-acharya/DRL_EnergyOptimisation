@@ -103,7 +103,7 @@ def build_multiseed_summary(seeds: List[int]) -> pd.DataFrame:
 
     per_seed: Dict[str, List[float]] = {kpi: [] for kpi in SUMMARY_KPIS}
     for seed in seeds:
-        output_dir = PROJECT_ROOT / "outputs" / "ppo" / f"seed{seed}"
+        output_dir = PROJECT_ROOT / "results" / "runs" / "ppo" / f"seed{seed}"
         row = load_selected_row(output_dir, seed)
         for kpi in SUMMARY_KPIS:
             per_seed[kpi].append(float(row[kpi]))
@@ -151,7 +151,7 @@ def load_ppo_rows(seeds: List[int]) -> List[Dict[str, Any]]:
 
     rows: List[Dict[str, Any]] = []
     for seed in seeds:
-        output_dir = PROJECT_ROOT / "outputs" / "ppo" / f"seed{seed}"
+        output_dir = PROJECT_ROOT / "results" / "runs" / "ppo" / f"seed{seed}"
         selected = load_selected_row(output_dir, seed)
         dev_row: Dict[str, Any] = {"controller": f"PPO-seed{seed}", "window": "dev"}
         for kpi in PRIMARY_KPIS:

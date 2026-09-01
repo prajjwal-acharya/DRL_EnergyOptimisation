@@ -80,7 +80,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--figures-dir",
         type=Path,
-        default=PROJECT_ROOT / "outputs" / "figures",
+        default=PROJECT_ROOT / "results" / "figures",
         help="Figure directory (smoke runs may redirect it).",
     )
     parser.add_argument(
@@ -211,7 +211,7 @@ def main() -> int:
     output_dir = (
         args.output_dir.resolve()
         if args.output_dir is not None
-        else (PROJECT_ROOT / "outputs" / "ppo" / f"seed{seed}").resolve()
+        else (PROJECT_ROOT / "results" / "runs" / "ppo" / f"seed{seed}").resolve()
     )
     checkpoints_dir = output_dir / "checkpoints"
     figures_dir = args.figures_dir.resolve()

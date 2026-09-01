@@ -125,7 +125,7 @@ def main() -> int:
     started = time.time()
     summaries: List[Dict[str, Any]] = []
     for seed in args.seeds:
-        output_dir = (PROJECT_ROOT / "outputs" / "ppo" / f"seed{seed}").resolve()
+        output_dir = (PROJECT_ROOT / "results" / "runs" / "ppo" / f"seed{seed}").resolve()
         selected = load_selected_checkpoint(output_dir, int(seed))
 
         controller_name = f"ppo_seed{seed}"
@@ -187,7 +187,7 @@ def main() -> int:
 
     # Machine-readable roll-up next to the per-seed artifacts (never inside the
     # week-2 tree).
-    rollup_path = PROJECT_ROOT / "outputs" / "ppo" / "final_window_summaries.json"
+    rollup_path = PROJECT_ROOT / "results" / "runs" / "ppo" / "final_window_summaries.json"
     with rollup_path.open("w") as handle:
         json.dump(
             {
@@ -212,7 +212,7 @@ def main() -> int:
         f"seed{s}/{name}"
         for s in args.seeds
         for name in (DISTRICT_KPIS_FILE, TRACE_FILE)
-        if not (PROJECT_ROOT / "outputs" / "ppo" / f"seed{s}" / args.window / name).is_file()
+        if not (PROJECT_ROOT / "results" / "runs" / "ppo" / f"seed{s}" / args.window / name).is_file()
     ]
     if missing_artifacts:
         print(f"[gate] FAIL: missing artifacts: {', '.join(missing_artifacts)}")

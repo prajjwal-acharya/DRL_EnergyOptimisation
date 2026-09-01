@@ -70,3 +70,17 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
     removed across `src/`, `scripts/`, `tests/`; `ruff.toml` added exempting
     tests/ and scripts/ from E402 (the intentional sys.path bootstrap). Ruff now
     passes clean repo-wide; test outcomes unchanged.
+
+15. **Path-parts migration blind spot, found and fixed (2026-09-02):** the
+    September-2026 outputs/→results/ migration replaced string literals
+    (`"outputs/ppo"`), but nine executable lines in scripts 10–13 built the same
+    path from Path parts (`PROJECT_ROOT / "outputs" / "ppo"`), which string
+    replacement cannot see — docstrings were migrated, code was not. The first
+    hand-run of the PPO layer therefore wrote seed 42 into a stray `outputs/`
+    tree. All nine lines fixed, the generated seed-42 artifacts re-homed under
+    `results/runs/ppo/seed42/`, and `11`/`12` re-run to regenerate their records
+    with correct paths (values identical to the historical record). The seed-42
+    *training* metadata (`run_metadata.json` from `10`) still records the old
+    output directory as an informational field — cosmetic; retrain seed 42 only
+    if a perfectly uniform artifact set is wanted. Lesson recorded: path
+    migrations must grep for constructed paths, not just path strings.
