@@ -17,7 +17,7 @@ environment steps) is written from the monitor log after training.
 
 Usage:
 
-    ./.venv/bin/python scripts/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42
+    ./.venv/bin/python scripts/standard_ppo/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42
 
 ``--output-dir`` / ``--figures-dir`` / ``--total-timesteps`` exist solely for
 short code-validation smoke runs outside the real artifact tree; real runs use
@@ -48,9 +48,7 @@ import torch
 import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.monitor import Monitor

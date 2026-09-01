@@ -34,10 +34,10 @@ RL-Forecast-Energy/
 │   └── schema-building1.json derived single-building CityLearn schema
 │
 ├── scripts/             runnable commands — numbered by phase
-│   ├── 01–05  foundation: fetch dataset, derive schema, inspect, smoke, gate
-│   ├── 06–08  Week 2 baselines: run, compare, gate
-│   ├── 09–14  Week 3 PPO: norm stats, train, eval checkpoints, eval final, compare, gate
-│   └── 15–20  Weeks 4–5 (planned): forecasting + uncertainty-aware PPO
+│   ├── foundation/      01–05  fetch dataset, derive schema, inspect, smoke, gate
+│   ├── cmdp_baselines/   06–08  Week 2: run, compare, gate
+│   ├── standard_ppo/     09–14  Week 3 PPO: stats, train, eval, compare, gate
+│   └── forecasting/ · uncertainty_aware_ppo/   15–20  Weeks 4–5 (planned)
 │
 ├── tests/               60 contract tests — see tests/test-desc.md (the B0-anchor
 │                        1e-9 regressions live in test_runner.py and test_rl_env.py)
@@ -45,7 +45,7 @@ RL-Forecast-Energy/
 ├── data/
 │   ├── README.md          provenance and rules for this folder
 │   └── raw/citylearn_challenge_2023_phase_1/   the pinned dataset payload (read-only, ~0.5 MB,
-│                                              fetched/verified by scripts/01_fetch_pinned_dataset.py)
+│                                              fetched/verified by scripts/foundation/01_fetch_pinned_dataset.py)
 │
 ├── results/             generated evidence — never hand-edited, always regenerable
 │   ├── runs/               baselines/ · ppo/ · smoke/ — per-run artifact sets

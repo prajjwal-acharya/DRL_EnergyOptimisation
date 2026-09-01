@@ -25,7 +25,7 @@ reserve band and grid limit from ``configs/week2-baselines.yaml`` (read-only
 reference) — no constants in code.
 
 Usage:
-    ./.venv/bin/python scripts/11_evaluate_checkpoints.py --seed 42 --window dev
+    ./.venv/bin/python scripts/standard_ppo/11_evaluate_checkpoints.py --seed 42 --window dev
 """
 
 from __future__ import annotations
@@ -48,9 +48,7 @@ import pandas as pd
 import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from energy_optimisation.evaluation.metrics import compute_derived_metrics
 from energy_optimisation.evaluation.runner import (
     relative_to_project_root,

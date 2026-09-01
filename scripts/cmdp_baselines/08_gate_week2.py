@@ -1,7 +1,7 @@
 """Verify the completed Week 2 phase: CMDP spec, harness, baselines, artifacts.
 
 Plan reference: docs/plans/week2-implementation-plan.md §D3 (mirrors the structure of
-``scripts/05_gate_week1.py``). Every check below is a hard pass/fail with a
+``scripts/foundation/05_gate_week1.py``). Every check below is a hard pass/fail with a
 clear message; the script exits non-zero on the first failure. No controller is
 trained and nothing under ``results/`` is modified — this reads recorded phase
 evidence only.
@@ -32,7 +32,7 @@ import yaml
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 CONTROLLERS = ("b0_neutral", "b1_fixed_schedule", "b2_tariff_aware")
 WINDOWS = ("dev", "final")

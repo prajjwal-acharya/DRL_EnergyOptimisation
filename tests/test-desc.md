@@ -4,7 +4,7 @@
 These are **contract tests**: they pin the project's invariants so that neither
 code drift nor accidental edits can silently change what a number means.
 Four of them read generated evidence under `results/` (noted below) — they pass
-once the pipeline in `results/README.md` has been re-run.
+once the pipeline in `results/results-desc.md` has been re-run.
 
 | File | Tests | Guarantees |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ once the pipeline in `results/README.md` has been re-run.
   `test_neutral_action_reproduces_b0_anchors`, and the two inspection-position
   tests in `test_observation_names.py`) require `results/runs/smoke/` and
   `results/inspection/` to exist — currently cleared for regeneration
-  (`results/README.md`); the other 56 pass regardless.
+  (`results/results-desc.md`); the other 56 pass regardless.
 
 ## Conventions
 

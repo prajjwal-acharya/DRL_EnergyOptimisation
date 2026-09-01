@@ -40,7 +40,7 @@ and resume procedure are in `status/phase-reviews/week4-5-status.md`.
 ## State note (1 September 2026)
 
 `results/` was intentionally cleared for a from-scratch regeneration by hand —
-see `results/README.md` for the exact script order and runtimes. Until the
+see `results/results-desc.md` for the exact script order and runtimes. Until the
 pipeline is re-run, the Week-1/2/3 verify gates fail by design (they check
 on-disk evidence), as do the four tests that read the smoke/inspection
 artifacts (`test_b0_matches_smoke_kpis`, `test_neutral_action_reproduces_b0_anchors`,

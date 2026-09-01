@@ -15,7 +15,7 @@ the week-3 reward block, SoC reserve band and grid limit from
 ``configs/week2-baselines.yaml`` (read-only reference).
 
 Usage:
-    ./.venv/bin/python scripts/12_evaluate_final_window.py --seeds 42 43 44
+    ./.venv/bin/python scripts/standard_ppo/12_evaluate_final_window.py --seeds 42 43 44
 """
 
 from __future__ import annotations
@@ -30,9 +30,7 @@ from typing import Any, Dict, List
 import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from energy_optimisation.evaluation.artifacts import DISTRICT_KPIS_FILE, TRACE_FILE
 from energy_optimisation.evaluation.runner import (
     relative_to_project_root,

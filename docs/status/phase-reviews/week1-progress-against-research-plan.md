@@ -132,12 +132,12 @@ The approved plan defines these as end-of-semester deliverables. Week 1 contribu
 The following checks have been executed successfully from the project environment:
 
 ```bash
-python scripts/01_fetch_pinned_dataset.py --skip-clone
-python scripts/02_derive_building_schema.py
-python scripts/03_inspect_environment.py
-python scripts/04_run_smoke_test.py
+python scripts/foundation/01_fetch_pinned_dataset.py --skip-clone
+python scripts/foundation/02_derive_building_schema.py
+python scripts/foundation/03_inspect_environment.py
+python scripts/foundation/04_run_smoke_test.py
 python -m pytest -q
-python scripts/05_gate_week1.py
+python scripts/foundation/05_gate_week1.py
 ```
 
 Verification results:

@@ -1,7 +1,7 @@
 """Verify the completed Week 3 phase: PPO adapter, training, learning curves.
 
 Plan reference: docs/plans/week3-implementation-plan.md §D3 (mirrors the structure of
-``scripts/08_gate_week2.py``). Every check below is a hard pass/fail with a
+``scripts/cmdp_baselines/08_gate_week2.py``). Every check below is a hard pass/fail with a
 clear message; the script exits non-zero if any check fails. Nothing under
 ``results/`` is modified — this reads recorded phase evidence only.
 
@@ -39,7 +39,7 @@ from pathlib import Path
 from typing import Dict, List
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 
 import numpy as np

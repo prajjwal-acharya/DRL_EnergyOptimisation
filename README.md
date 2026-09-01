@@ -76,23 +76,23 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 # Foundation (Week 1)
-python scripts/01_fetch_pinned_dataset.py          # verify pinned dataset (--fetch to re-extract)
-python scripts/02_derive_building_schema.py             # derive the single-building schema
-python scripts/03_inspect_environment.py     # export interface evidence
-python scripts/04_run_smoke_test.py               # deterministic zero-action smoke run
-python scripts/05_gate_week1.py            # Week 1 phase gate
+python scripts/foundation/01_fetch_pinned_dataset.py          # verify pinned dataset (--fetch to re-extract)
+python scripts/foundation/02_derive_building_schema.py             # derive the single-building schema
+python scripts/foundation/03_inspect_environment.py     # export interface evidence
+python scripts/foundation/04_run_smoke_test.py               # deterministic zero-action smoke run
+python scripts/foundation/05_gate_week1.py            # Week 1 phase gate
 
 # Deterministic baselines (Week 2)
-python scripts/06_run_baselines.py           # B0/B1/B2 on both locked windows
-python scripts/07_compare_baselines.py --window dev --window final
-python scripts/08_gate_week2.py            # Week 2 phase gate
+python scripts/cmdp_baselines/06_run_baselines.py           # B0/B1/B2 on both locked windows
+python scripts/cmdp_baselines/07_compare_baselines.py --window dev --window final
+python scripts/cmdp_baselines/08_gate_week2.py            # Week 2 phase gate
 
 # Standard PPO (Week 3) — ~5 min per seed on CPU
-python scripts/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
-python scripts/11_evaluate_checkpoints.py --seed 42                        # then 43, 44
-python scripts/12_evaluate_final_window.py
-python scripts/13_compare_ppo.py
-python scripts/14_gate_week3.py            # Week 3 phase gate
+python scripts/standard_ppo/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
+python scripts/standard_ppo/11_evaluate_checkpoints.py --seed 42                        # then 43, 44
+python scripts/standard_ppo/12_evaluate_final_window.py
+python scripts/standard_ppo/13_compare_ppo.py
+python scripts/standard_ppo/14_gate_week3.py            # Week 3 phase gate
 
 python -m pytest -q                          # 60 tests
 ```
@@ -106,7 +106,8 @@ Generated evidence lands under `results/` (git-ignored; always regenerable from
 docs/        plans/ (what we intend), reference/ (how things work), status/ (where we are)
 src/         the library — environment, baselines, evaluation harness, RL adapter
 configs/     frozen experiment definitions (schema, week2 baselines, week3 PPO)
-scripts/     runnable commands, numbered 01–14 in execution order (weeks 4–5 continue at 15–20)
+scripts/     runnable commands in phase subfolders (foundation/, cmdp_baselines/,
+             standard_ppo/), numbered 01–14 in execution order; weeks 4–5 add 15–20
 tests/       60 contract tests, incl. the B0-anchor 1e-9 regression
 results/     generated evidence — runs/, tables/, figures/ — git-ignored
 data/raw/    the pinned citylearn_challenge_2023_phase_1 dataset — read-only, git-ignored

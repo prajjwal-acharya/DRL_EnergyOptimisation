@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from citylearn import __version__ as citylearn_version
 
@@ -33,10 +33,10 @@ REQUIRED_PATHS = (
     "docs/reference/experiment-protocol.md",
     "docs/reference/literature-matrix.csv",
     "docs/reference/literature.md",
-    "scripts/01_fetch_pinned_dataset.py",
-    "scripts/02_derive_building_schema.py",
-    "scripts/03_inspect_environment.py",
-    "scripts/04_run_smoke_test.py",
+    "scripts/foundation/01_fetch_pinned_dataset.py",
+    "scripts/foundation/02_derive_building_schema.py",
+    "scripts/foundation/03_inspect_environment.py",
+    "scripts/foundation/04_run_smoke_test.py",
     "src/energy_optimisation/environment.py",
     "tests/test_environment.py",
 )

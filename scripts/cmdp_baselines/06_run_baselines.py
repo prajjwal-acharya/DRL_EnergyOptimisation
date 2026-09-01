@@ -8,8 +8,8 @@ set (run metadata, trace, district KPIs, derived §B4 metrics, run note) under
 ``results/runs/baselines/<controller>/<window>/``.
 
 Examples:
-    ./.venv/bin/python scripts/06_run_baselines.py --window dev --controllers b0_neutral
-    ./.venv/bin/python scripts/06_run_baselines.py --window dev final
+    ./.venv/bin/python scripts/cmdp_baselines/06_run_baselines.py --window dev --controllers b0_neutral
+    ./.venv/bin/python scripts/cmdp_baselines/06_run_baselines.py --window dev final
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ import yaml
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from energy_optimisation.baselines.controllers import (
     FixedScheduleController,

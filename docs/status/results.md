@@ -61,7 +61,7 @@ cost bottoms early (20k–40k) and drifts up — training trades cost for comfor
 
 ## Where the evidence lives
 
-> `results/` is currently **cleared for regeneration** (see `results/README.md`).
+> `results/` is currently **cleared for regeneration** (see `results/results-desc.md`).
 > The paths below describe where each script re-creates the evidence when run;
 > the original artifacts are preserved in the previous workspace
 > (`/Volumes/code/Research Project/code/outputs/`).

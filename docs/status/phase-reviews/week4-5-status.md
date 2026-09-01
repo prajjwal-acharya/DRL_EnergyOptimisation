@@ -42,7 +42,7 @@ Worker attempts 2 and 3 failed with a different transient OpenCode server error 
 
 - Git: `master` at `0d6de3a` ("chore: add week-4/5 conductor verification wrappers"), working tree clean; last research commit is `52e7f94` (week 3).
 - `src/energy_optimisation/forecasting/` contains only `.gitkeep` (dated 18 Aug); `safety/` likewise.
-- No `configs/`, no `results/runs/forecasting/`, no `results/runs/ppo_week5/`, no `scripts/17_gate_week4.py` / `20_gate_week5.py`, no `docs/status/phase-reviews/week4-review.md` / `week5-review.md`.
+- No `configs/`, no `results/runs/forecasting/`, no `results/runs/ppo_week5/`, no `scripts/forecasting/17_gate_week4.py` / `20_gate_week5.py`, no `docs/status/phase-reviews/week4-review.md` / `week5-review.md`.
 - Week-4 `evidence.jsonl` does not exist (no evidence ever recorded).
 - During its 3 cycles the week-4 daemon ran `check_pytest.sh` successfully (60 tests green) — the repo stayed healthy throughout.
 
@@ -54,7 +54,7 @@ Worker attempts 2 and 3 failed with a different transient OpenCode server error 
 > conductor-based resume steps below describe the *previous* workspace, where
 > the mission state still lives; in the current repo, simply execute
 > `docs/plans/week4-implementation-plan.md` by hand and finish with
-> `scripts/17_gate_week4.py`.
+> `scripts/forecasting/17_gate_week4.py`.
 
 The blocker is purely operational: pick a valid model route, then restart the mission. The recorded restart command (from the week-4 mission's `daemon.json`) is:
 

@@ -39,7 +39,7 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
 8. Stale wording: "49-dim" observation in two week-3 docs (correct = 29 slots); the
    `cmdp-spec.md` hour annotation says h ∈ {0–23} while the dataset/observations run
    1–24 (the frozen normalisation offset 1 / scale 23 is correct).
-9. The week-4/5 phase gates (`scripts/17_gate_week4.py`, `20_gate_week5.py`) do not
+9. The week-4/5 phase gates (`scripts/forecasting/17_gate_week4.py`, `20_gate_week5.py`) do not
    exist yet — they are phase deliverables.
 10. Resolved 2026-09-01: the agent-conductor wrapper layer (formerly `automation/`)
     was removed; this repo is executed by hand, so the space in the path no longer
@@ -50,7 +50,7 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
     from the previous workspace retain their original commit hashes (`4c2c49f`-era for
     baselines, `fd52a53` for PPO), which refer to the previous repository's history; the
     week-3 gate accepts the pre-migration config hash (`1661674d…`) for exactly these runs
-    (see `LEGACY_WEEK3_CONFIG_SHA256` in `scripts/14_gate_week3.py`).
+    (see `LEGACY_WEEK3_CONFIG_SHA256` in `scripts/standard_ppo/14_gate_week3.py`).
 12. `.pytest_cache` from the previous workspace listed 62 tests vs the current 60
     (not copied here; harmless wherever it regenerates).
 

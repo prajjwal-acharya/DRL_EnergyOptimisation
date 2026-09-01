@@ -33,7 +33,7 @@ import pandas as pd
 import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from energy_optimisation.environment import load_environment
 from energy_optimisation.observation_names import observation_layout

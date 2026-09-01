@@ -10,7 +10,7 @@ directory under ``results/runs/baselines/<controller>/<window>/`` and writes:
   cooling setpoint trace.
 
 Example:
-    ./.venv/bin/python scripts/07_compare_baselines.py --window 0-167 0-719
+    ./.venv/bin/python scripts/cmdp_baselines/07_compare_baselines.py --window 0-167 0-719
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from energy_optimisation.evaluation.artifacts import DISTRICT_KPIS_FILE, TRACE_FILE
 

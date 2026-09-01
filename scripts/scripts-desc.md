@@ -1,10 +1,11 @@
 # Script Guide — What Each Script Is For
 
 Numbering is sequential in execution order — also the recommended reading
-order: `01–05` foundation (Week 1) · `06–08` deterministic baselines (Week 2) ·
-`09–14` standard PPO (Week 3) · `15–17` forecasting (Week 4, planned) ·
-`18–20` uncertainty-aware PPO (Week 5, planned). The gate names (`gate_weekN`)
-carry the phase, so the numbers never skip.
+order — and scripts live in phase subfolders: `foundation/` (01–05, Week 1) ·
+`cmdp_baselines/` (06–08, Week 2) · `standard_ppo/` (09–14, Week 3) ·
+`forecasting/` (15–17, Week 4, planned) · `uncertainty_aware_ppo/`
+(18–20, Week 5, planned). The gate names (`gate_weekN`) carry the phase, so
+the numbers never skip.
 
 All scripts run from the repository root with the project venv
 (`source .venv/bin/activate`, or `.venv/bin/python scripts/<name>`).
@@ -54,7 +55,7 @@ never in code.
 ## Conventions
 
 - The agent-conductor wrapper layer was removed (2026-09-01); the gates are run
-  directly: `python scripts/<NN>_gate_weekN.py`.
+  directly: `python scripts/<phase-folder>/<NN>_gate_weekN.py`.
 - **Research result?** `10/11`, `21/22/23/24` produce research evidence; everything
   else is infrastructure or verification (same convention as the README table).
 - Nothing under `results/` is ever hand-edited — regenerate from these scripts only.

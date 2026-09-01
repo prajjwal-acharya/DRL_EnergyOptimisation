@@ -15,7 +15,7 @@ week-2 baseline table (read-only) and the Phase C/D PPO artifacts and writes:
 byte-identical to its week-2 state (14_gate_week3.py enforces this against git).
 
 Usage:
-    ./.venv/bin/python scripts/13_compare_ppo.py --seeds 42 43 44
+    ./.venv/bin/python scripts/standard_ppo/13_compare_ppo.py --seeds 42 43 44
 """
 
 from __future__ import annotations
@@ -35,9 +35,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from energy_optimisation.evaluation.artifacts import DISTRICT_KPIS_FILE
 from energy_optimisation.rl import EVALUATION_COLUMNS
 
@@ -47,7 +45,7 @@ PPO_VS_BASELINES_TABLE = PROJECT_ROOT / "results/tables/ppo_vs_baselines.csv"
 COST_FIGURE = PROJECT_ROOT / "results/figures/ppo_vs_baselines_cost.png"
 
 WINDOWS = ("dev", "final")
-# Fixed week-2 primary-KPI column set (scripts/07_compare_baselines.py order).
+# Fixed week-2 primary-KPI column set (scripts/cmdp_baselines/07_compare_baselines.py order).
 PRIMARY_KPIS = (
     "cost_total",
     "all_time_peak_average",

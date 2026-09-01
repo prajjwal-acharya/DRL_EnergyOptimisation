@@ -144,19 +144,19 @@ D_t = max(0, T_in − (T_set + 2.0 °C))
 
 ### 4.1 Week 1 — foundation (complete, commit `d00ba1b…`, reviewed in `docs/status/phase-reviews/week1-review.md`)
 
-Repo scaffold, pinned venv, local CityLearn bootstrap avoiding GitHub API rate limits (`scripts/01_fetch_pinned_dataset.py`), derived single-building schema, parent-scenario interface inspection (`results/inspection/citylearn_2023_phase_1.json`), deterministic zero-action smoke run through step 167 (`results/runs/smoke/`), README with RQ1–3, literature matrix (12 sources screened, 6 fully analysed — `docs/reference/literature.md`, `docs/reference/literature-matrix.csv`), phase gate `scripts/05_gate_week1.py`.
+Repo scaffold, pinned venv, local CityLearn bootstrap avoiding GitHub API rate limits (`scripts/foundation/01_fetch_pinned_dataset.py`), derived single-building schema, parent-scenario interface inspection (`results/inspection/citylearn_2023_phase_1.json`), deterministic zero-action smoke run through step 167 (`results/runs/smoke/`), README with RQ1–3, literature matrix (12 sources screened, 6 fully analysed — `docs/reference/literature.md`, `docs/reference/literature-matrix.csv`), phase gate `scripts/foundation/05_gate_week1.py`.
 
 ### 4.2 Week 2 — CMDP + harness + deterministic baselines (complete, commit `db35976`, reviewed in `docs/status/phase-reviews/week2-review.md`)
 
 - `src/energy_optimisation/observation_names.py` — schema-derived, frozen (immutable `MappingProxyType`) name→index map.
 - `src/energy_optimisation/evaluation/` — the **locked harness**: `runner.run_episode()` (repair → act → clip → step → trace), `metrics.compute_derived_metrics()` (comfort hours, SoC min/max, clipping/reserve events, peak, solar self-consumption, grid-limit exceedances), `artifacts.write_run_artifacts()` (the standard 5-file run set: `run_metadata.json`, `trace.csv`, `district_kpis.csv`, `derived_metrics.json`, `README.md`).
 - `src/energy_optimisation/baselines/controllers.py` — `Controller` ABC (`act(observation) → (3,)` requested actions) + **B0** neutral (zeros), **B1** fixed-schedule (hour-banded, price-blind), **B2** tariff-aware (discharges at price ≥ τ within reserve band, charges off-peak, peak cooling 0.6).
-- Frozen lock `configs/week2-baselines.yaml`; runs via `scripts/06_run_baselines.py`; comparison via `scripts/07_compare_baselines.py`; gate `scripts/08_gate_week2.py` (9 checks incl. B0 regression vs smoke anchors at 1e-9).
+- Frozen lock `configs/week2-baselines.yaml`; runs via `scripts/cmdp_baselines/06_run_baselines.py`; comparison via `scripts/cmdp_baselines/07_compare_baselines.py`; gate `scripts/cmdp_baselines/08_gate_week2.py` (9 checks incl. B0 regression vs smoke anchors at 1e-9).
 - Harness validated *before* controllers existed: B0 through the harness reproduces all six smoke KPI anchors exactly (max |Δ| = 0).
 
 ### 4.3 Week 3 — standard PPO (complete, commit `52e7f94`, reviewed in `docs/status/phase-reviews/week3-review.md`)
 
-- `src/energy_optimisation/rl/env_adapter.py` — `CityLearnRLEnv(gymnasium.Env)`: 29-dim min-max-normalised observation (per-feature `(offset, scale)` frozen in `configs/week3-ppo.yaml`, computed once by `scripts/09_compute_normalization_stats.py` from the B0 dev trace + schema static ranges), action space Box(−1,1)³ mapped to CityLearn as `[a0, a1, (a2+1)/2]`, reward = frozen CMDP formula from executed values, `terminated` always False / `truncated` only at window end, pre-clip violation counting.
+- `src/energy_optimisation/rl/env_adapter.py` — `CityLearnRLEnv(gymnasium.Env)`: 29-dim min-max-normalised observation (per-feature `(offset, scale)` frozen in `configs/week3-ppo.yaml`, computed once by `scripts/standard_ppo/09_compute_normalization_stats.py` from the B0 dev trace + schema static ranges), action space Box(−1,1)³ mapped to CityLearn as `[a0, a1, (a2+1)/2]`, reward = frozen CMDP formula from executed values, `terminated` always False / `truncated` only at window end, pre-clip violation counting.
 - `src/energy_optimisation/rl/controller.py` — `PPOController` (SB3 PPO on the week-2 Controller interface, deterministic predict, frozen normalisation) + `episode_return_from_trace` (exact replay of training return from a harness trace).
 - `src/energy_optimisation/rl/checkpoint_selection.py` — frozen rule: **lowest dev `cost_total`, tie-break lower `discomfort_proportion`**.
 - Scripts: `10_train_ppo.py` (SB3 2.3.2, MlpPolicy [64,64], n_steps 2048, batch 256, 10 epochs, lr 3e-4, γ 0.99, λ 0.95, clip 0.2, ent 0.01, vf 0.5, max-grad-norm 0.5, 200k steps, checkpoint every 10k, CPU, refuses non-CPU), `11_evaluate_checkpoints.py` (all 21 checkpoints/seed through the locked harness), `12_evaluate_final_window.py`, `13_compare_ppo.py`, gate `14_gate_week3.py` (9 checks incl. independent re-execution of the selection rule and byte-identity of week-2 evidence).
@@ -277,23 +277,23 @@ python3 -m venv .venv && source .venv/bin/activate
 python -m pip install -r requirements.txt
 
 # Foundation (week 1)
-python scripts/01_fetch_pinned_dataset.py
-python scripts/02_derive_building_schema.py
-python scripts/03_inspect_environment.py
-python scripts/04_run_smoke_test.py
-python scripts/05_gate_week1.py
+python scripts/foundation/01_fetch_pinned_dataset.py
+python scripts/foundation/02_derive_building_schema.py
+python scripts/foundation/03_inspect_environment.py
+python scripts/foundation/04_run_smoke_test.py
+python scripts/foundation/05_gate_week1.py
 
 # Baselines (week 2)
-python scripts/06_run_baselines.py
-python scripts/07_compare_baselines.py --window dev --window final
-python scripts/08_gate_week2.py
+python scripts/cmdp_baselines/06_run_baselines.py
+python scripts/cmdp_baselines/07_compare_baselines.py --window dev --window final
+python scripts/cmdp_baselines/08_gate_week2.py
 
 # PPO (week 3) — ~5 min per seed on CPU
-python scripts/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
-python scripts/11_evaluate_checkpoints.py --seed 42                        # then 43, 44
-python scripts/12_evaluate_final_window.py
-python scripts/13_compare_ppo.py
-python scripts/14_gate_week3.py
+python scripts/standard_ppo/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
+python scripts/standard_ppo/11_evaluate_checkpoints.py --seed 42                        # then 43, 44
+python scripts/standard_ppo/12_evaluate_final_window.py
+python scripts/standard_ppo/13_compare_ppo.py
+python scripts/standard_ppo/14_gate_week3.py
 
 python -m pytest -q    # 60 tests
 ```

@@ -4,7 +4,7 @@ Phase review for `docs/plans/week2-implementation-plan.md` (Phases A–D). All n
 from recorded phase evidence (`results/runs/baselines/**`, `results/tables/baseline_comparison.csv`)
 produced by the frozen config `configs/week2-baselines.yaml` (seed 42; windows dev 0–167 /
 final 0–719; CityLearn 2.5.0). Nothing under `results/` was hand-edited; every artifact is
-regenerable via `scripts/06_run_baselines.py` and `scripts/07_compare_baselines.py`.
+regenerable via `scripts/cmdp_baselines/06_run_baselines.py` and `scripts/cmdp_baselines/07_compare_baselines.py`.
 
 ## 1. Infrastructure evidence
 
@@ -108,9 +108,9 @@ conservatively than the ±0.5 fixed levels; the CMDP reward/constraint definitio
   figures `results/figures/dev_*.png` and `results/figures/final_*.png` (cost-by-controller bar,
   48-hour net-demand overlay, electrical SoC trace, indoor temperature vs cooling setpoint —
   4 kinds × 2 windows).
-- Regeneration: `./.venv/bin/python scripts/06_run_baselines.py --window dev final` then
-  `./.venv/bin/python scripts/07_compare_baselines.py --window dev --window final`; phase gate:
-  `./.venv/bin/python scripts/08_gate_week2.py`.
+- Regeneration: `./.venv/bin/python scripts/cmdp_baselines/06_run_baselines.py --window dev final` then
+  `./.venv/bin/python scripts/cmdp_baselines/07_compare_baselines.py --window dev --window final`; phase gate:
+  `./.venv/bin/python scripts/cmdp_baselines/08_gate_week2.py`.
 - Note: `results/runs/baselines/b0_zero_actions/0-167/` is the retained Phase-B gate-B harness-
   regression artifact (pre dev/final naming lock), and the earlier `0-167_*` figure prefix
   predates that lock; both are kept untouched (nothing under `results/` is hand-edited) and are
