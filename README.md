@@ -76,7 +76,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 # Foundation (Week 1)
-python scripts/01_bootstrap_data.py          # fetch/verify pinned CityLearn v2.5.0 source
+python scripts/01_bootstrap_data.py          # verify pinned dataset (--fetch to re-extract)
 python scripts/02_make_schema.py             # derive the single-building schema
 python scripts/03_inspect_environment.py     # export interface evidence
 python scripts/04_smoke_run.py               # deterministic zero-action smoke run
@@ -108,9 +108,8 @@ src/         the library — environment, baselines, evaluation harness, RL adap
 configs/     frozen experiment definitions (schema, week2 baselines, week3 PPO)
 scripts/     runnable commands, numbered by phase (01–05 setup, 10–12 week 2, 20–25 week 3)
 tests/       60 contract tests, incl. the B0-anchor 1e-9 regression
-data/raw/    pinned CityLearn v2.5.0 clone — read-only, git-ignored
 results/     generated evidence — runs/, tables/, figures/ — git-ignored
-notebooks/   exploration only, never the source of truth
+data/raw/    the pinned citylearn_challenge_2023_phase_1 dataset — read-only, git-ignored
 automation/  conductor wrappers and the week-4→5 chain script
 ```
 

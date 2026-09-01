@@ -14,7 +14,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from energy_optimisation.environment import inspect_environment
 
 
-DEFAULT_SCHEMA = PROJECT_ROOT / "data/raw/citylearn-2.5.0/data/datasets/citylearn_challenge_2023_phase_1/schema.json"
+DEFAULT_SCHEMA = PROJECT_ROOT / "data/raw/citylearn_challenge_2023_phase_1/schema.json"
 DEFAULT_OUTPUT = PROJECT_ROOT / "results/inspection/citylearn_2023_phase_1.json"
 
 

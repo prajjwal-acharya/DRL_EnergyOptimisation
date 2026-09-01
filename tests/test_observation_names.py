@@ -19,7 +19,7 @@ from energy_optimisation.observation_names import (
 
 PARENT_SCHEMA_PATH = (
     PROJECT_ROOT
-    / "data/raw/citylearn-2.5.0/data/datasets/citylearn_challenge_2023_phase_1/schema.json"
+    / "data/raw/citylearn_challenge_2023_phase_1/schema.json"
 )
 INSPECTION_PATH = PROJECT_ROOT / "results/inspection/citylearn_2023_phase_1.json"
 EXPECTED_CENTRAL_DIMENSION = 49

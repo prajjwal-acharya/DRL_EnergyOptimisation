@@ -43,8 +43,8 @@ RL-Forecast-Energy/
 │
 ├── data/
 │   ├── README.md          provenance and rules for this folder
-│   └── raw/citylearn-2.5.0/   pinned CityLearn v2.5.0 source clone (read-only, 1.1 GB,
-│                              re-fetchable via scripts/01_bootstrap_data.py)
+│   └── raw/citylearn_challenge_2023_phase_1/   the pinned dataset payload (read-only, ~0.5 MB,
+│                                              fetched/verified by scripts/01_bootstrap_data.py)
 │
 ├── results/             generated evidence — never hand-edited, always regenerable
 │   ├── runs/               baselines/ · ppo/ · smoke/ — per-run artifact sets
@@ -53,8 +53,6 @@ RL-Forecast-Energy/
 │   ├── inspection/         environment interface evidence
 │   ├── tables/             the comparison CSVs (= "the results")
 │   └── figures/            all PNGs
-│
-├── notebooks/           exploration only — never the source of truth
 │
 └── automation/          agent-conductor wrappers (check_*.sh), the week4→week5 chain
                          script, and notes on running missions against this repo
@@ -65,7 +63,7 @@ RL-Forecast-Energy/
 | Thing | Goes in | Not in |
 | --- | --- | --- |
 | Reusable logic | `src/` | `scripts/` |
-| A runnable command | `scripts/` (numbered) | `notebooks/` |
+| A runnable command | `scripts/` (numbered) | anywhere else |
 | An experiment decision/constant | `configs/` (frozen, named) | code |
 | A number or figure | `results/` (regenerated) | git |
 | How something works | `docs/reference/` | README (keep it short) |

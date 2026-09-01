@@ -26,7 +26,7 @@ MAE/RMSE and interval calibration").
 
 - CityLearn `2.5.0` pinned to source tag `v2.5.0`, commit `29062af6d077409e1c37a3e53a6cac30fd4d02bc`.
 - Pinned dataset on disk (read-only, never modify):
-  `data/raw/citylearn-2.5.0/data/datasets/citylearn_challenge_2023_phase_1/`
+  `data/raw/citylearn_challenge_2023_phase_1/`
   - `Building_1.csv` — 720 hourly rows (30 days), header included at line 1. Columns
     (verified): `month, hour, day_type, daylight_savings_status,
     indoor_dry_bulb_temperature, average_unmet_cooling_setpoint_difference,

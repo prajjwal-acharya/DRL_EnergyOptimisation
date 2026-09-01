@@ -1,6 +1,6 @@
 {
   "random_seed": 2023,
-  "root_directory": "data/raw/citylearn-2.5.0/data/datasets/citylearn_challenge_2023_phase_1",
+  "root_directory": "data/raw/citylearn_challenge_2023_phase_1",
   "central_agent": true,
   "simulation_start_time_step": 0,
   "simulation_end_time_step": 719,
