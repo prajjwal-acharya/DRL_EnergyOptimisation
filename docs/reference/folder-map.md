@@ -17,7 +17,7 @@ RL-Forecast-Energy/
 │   ├── reference/         KNOW: folder map (this file), dataset, CMDP spec, protocol, literature
 │   └── status/            ARE: current stage, results, issues + research-log + phase-reviews/
 │
-├── src/energy_optimisation/    the library — all reusable logic, no scripts
+├── src/energy_optimisation/    the library — all reusable logic (src-desc.md)
 │   ├── environment.py            CityLearn loading, inspection, schema derivation
 │   ├── observation_names.py      name→index observation map (no magic indices anywhere)
 │   ├── baselines/controllers.py  Controller ABC + B0/B1/B2 decision rules
