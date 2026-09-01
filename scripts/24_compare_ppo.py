@@ -12,7 +12,7 @@ week-2 baseline table (read-only) and the Phase C/D PPO artifacts and writes:
   both windows.
 
 ``results/tables/baseline_comparison.csv`` is consumed read-only and must stay
-byte-identical to its week-2 state (25_verify_week3.py enforces this against git).
+byte-identical to its week-2 state (25_gate_week3.py enforces this against git).
 
 Usage:
     ./.venv/bin/python scripts/24_compare_ppo.py --seeds 42 43 44
@@ -207,7 +207,7 @@ def main() -> int:
     seeds = [int(seed) for seed in args.seeds]
 
     # Guardrail: this script only ever reads the week-2 table (BASELINE_TABLE
-    # is never a write target); 25_verify_week3.py re-derives its content from the
+    # is never a write target); 25_gate_week3.py re-derives its content from the
     # week-2 run artifacts to prove it stayed byte-identical.
 
     summary = build_multiseed_summary(seeds)

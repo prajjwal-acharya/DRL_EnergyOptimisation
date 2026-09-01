@@ -33,10 +33,10 @@ REQUIRED_PATHS = (
     "docs/reference/experiment-protocol.md",
     "docs/reference/literature-matrix.csv",
     "docs/reference/literature.md",
-    "scripts/01_bootstrap_data.py",
-    "scripts/02_make_schema.py",
+    "scripts/01_fetch_pinned_dataset.py",
+    "scripts/02_derive_building_schema.py",
     "scripts/03_inspect_environment.py",
-    "scripts/04_smoke_run.py",
+    "scripts/04_run_smoke_test.py",
     "src/energy_optimisation/environment.py",
     "tests/test_environment.py",
 )

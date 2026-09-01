@@ -4,7 +4,7 @@ Plan reference: `docs/plans/week3-implementation-plan.md` (binding spec). This r
 the completed phase A→D evidence in the required order — infrastructure first, then
 controller performance — including honest negative findings. Nothing under
 `results/runs/baselines/`, `results/runs/smoke/`, or `results/tables/baseline_comparison.csv`
-was modified (enforced byte-level by `scripts/25_verify_week3.py`).
+was modified (enforced byte-level by `scripts/25_gate_week3.py`).
 
 ---
 
@@ -36,7 +36,7 @@ was modified (enforced byte-level by `scripts/25_verify_week3.py`).
   n_epochs=10, lr=3e-4, γ=0.99, λ_GAE=0.95, clip=0.2, ent=0.01, vf=0.5, max_grad_norm=0.5,
   200k steps, checkpoint every 10k. Hyperparameters were frozen in
   `configs/week3-ppo.yaml` before the first full run and never edited afterwards
-  (`25_verify_week3.py` checks every run's recorded config SHA-256 against the current file).
+  (`25_gate_week3.py` checks every run's recorded config SHA-256 against the current file).
 - Sanity gates held for all three seeds: zero NaNs in every monitor log, **zero pre-clip
   action violations** (all requested actions inside the Box), 20 numbered checkpoints +
   `final.zip` per seed, return-curve figure per seed under `results/figures/`.
@@ -49,7 +49,7 @@ was modified (enforced byte-level by `scripts/25_verify_week3.py`).
   covers all 21 checkpoints NaN-free with clipping/reserve event counts.
 - Frozen selection rule (lowest dev `cost_total`; tie-break lower
   `discomfort_proportion`) executed by `scripts/22_evaluate_checkpoints.py`;
-  `25_verify_week3.py` independently re-executes the rule and requires the same winner.
+  `25_gate_week3.py` independently re-executes the rule and requires the same winner.
 - Final-window (0–719) evaluations of each seed's selected checkpoint via
   `scripts/23_evaluate_final_window.py`, artifacts under `results/runs/ppo/seed<seed>/final/` in
   the locked harness shape (run_metadata.json, trace.csv, district_kpis.csv,
@@ -137,7 +137,7 @@ figure: `results/figures/ppo_vs_baselines_cost.png`):
 
 ## Verification status
 
-- `./.venv/bin/python scripts/25_verify_week3.py` exits 0 (also via
+- `./.venv/bin/python scripts/25_gate_week3.py` exits 0 (also via
   `/Volumes/code/rp/automation/check_week3.sh`).
 - `./.venv/bin/python -m pytest -q` passes: 60 tests.
 - `/Volumes/code/rp/automation/check_pytest.sh` exits 0.

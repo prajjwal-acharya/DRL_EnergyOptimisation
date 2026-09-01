@@ -34,9 +34,9 @@ RL-Forecast-Energy/
 │   └── schema-building1.json derived single-building CityLearn schema
 │
 ├── scripts/             runnable commands — numbered by phase
-│   ├── 01–05_bootstrap / make_schema / inspect / smoke / verify   Week 1
-│   ├── 10–12_run / compare / verify                               Week 2 baselines
-│   ├── 20–25_norm stats / train / eval ckpts / eval final / compare / verify   Week 3
+│   ├── 01–05_fetch dataset / derive schema / inspect / smoke / gate   Week 1
+│   ├── 10–12_run / compare / gate                                 Week 2 baselines
+│   ├── 20–25_norm stats / train / eval ckpts / eval final / compare / gate     Week 3
 │   └── 30–32, 40–43                                               Week 4/5 (planned)
 │
 ├── tests/               60 contract tests (B0-anchor 1e-9 regression lives in test_rl_env.py)
@@ -44,7 +44,7 @@ RL-Forecast-Energy/
 ├── data/
 │   ├── README.md          provenance and rules for this folder
 │   └── raw/citylearn_challenge_2023_phase_1/   the pinned dataset payload (read-only, ~0.5 MB,
-│                                              fetched/verified by scripts/01_bootstrap_data.py)
+│                                              fetched/verified by scripts/01_fetch_pinned_dataset.py)
 │
 ├── results/             generated evidence — never hand-edited, always regenerable
 │   ├── runs/               baselines/ · ppo/ · smoke/ — per-run artifact sets

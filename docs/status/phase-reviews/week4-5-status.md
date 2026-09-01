@@ -9,7 +9,7 @@
 
 ## 1. What was supposed to happen
 
-- **Week 4 mission** (`2026-08-26-week-4-probabilistic-demand-solar-fo-4050fc`): implement `docs/plans/week4-implementation-plan.md` — the forecasting package (`data.py`, `metrics.py`, `models.py`, `api.py`), frozen `configs/week4-forecasting.yaml`, the 12-fold rolling-origin backtest (`30_train_forecasters.py`), mechanical selection (`31_compare_forecasters.py`), the `32_verify_week4.py` gate, `docs/status/phase-reviews/week4-review.md`, one commit.
+- **Week 4 mission** (`2026-08-26-week-4-probabilistic-demand-solar-fo-4050fc`): implement `docs/plans/week4-implementation-plan.md` — the forecasting package (`data.py`, `metrics.py`, `models.py`, `api.py`), frozen `configs/week4-forecasting.yaml`, the 12-fold rolling-origin backtest (`30_train_forecasters.py`), mechanical selection (`31_compare_forecasters.py`), the `32_gate_week4.py` gate, `docs/status/phase-reviews/week4-review.md`, one commit.
 - **Week 5 mission** (`2026-08-26-week-5-uncertainty-aware-ppo-point-v-e45c06`): implement `docs/plans/week5-implementation-plan.md` — the RQ1 matched-pair (point vs interval) PPO comparison. Its own objective states the prerequisite: *"Do not start this mission if that prerequisite fails; report it as blocked."*
 - **Chain** (`../conductor/chain_week4_then_week5.sh`): start week 4, poll its status every 60 s, hard-gate on `automation/check_week4.sh` exiting 0, then start week 5.
 
@@ -42,7 +42,7 @@ Worker attempts 2 and 3 failed with a different transient OpenCode server error 
 
 - Git: `master` at `0d6de3a` ("chore: add week-4/5 conductor verification wrappers"), working tree clean; last research commit is `52e7f94` (week 3).
 - `src/energy_optimisation/forecasting/` contains only `.gitkeep` (dated 18 Aug); `safety/` likewise.
-- No `configs/`, no `results/runs/forecasting/`, no `results/runs/ppo_week5/`, no `scripts/32_verify_week4.py` / `43_verify_week5.py`, no `docs/status/phase-reviews/week4-review.md` / `week5-review.md`.
+- No `configs/`, no `results/runs/forecasting/`, no `results/runs/ppo_week5/`, no `scripts/32_gate_week4.py` / `43_gate_week5.py`, no `docs/status/phase-reviews/week4-review.md` / `week5-review.md`.
 - Week-4 `evidence.jsonl` does not exist (no evidence ever recorded).
 - During its 3 cycles the week-4 daemon ran `check_pytest.sh` successfully (60 tests green) — the repo stayed healthy throughout.
 
@@ -76,7 +76,7 @@ The blocker is purely operational: pick a valid model route, then restart the mi
    ```bash
    nohup ./conductor/chain_week4_then_week5.sh >> ./conductor/chain.log 2>&1 &
    ```
-   The chain hard-gates on `automation/check_week4.sh` (which runs `32_verify_week4.py`) before starting week 5 — exactly the intended behaviour.
+   The chain hard-gates on `automation/check_week4.sh` (which runs `32_gate_week4.py`) before starting week 5 — exactly the intended behaviour.
 4. Alternatively, execute `docs/plans/week4-implementation-plan.md` manually (it is written to be runnable top-to-bottom by a human or worker with no other context) and manage week 5 the same way.
 
 **After week 4 completes:** update `docs/status/research-log.md` §5–§8 with the forecasting results, write/commit `docs/status/phase-reviews/week4-review.md` per the plan's required structure (including the three verbatim disclaimers), and fix the two stale "49-dim" week-3 doc references plus the `week3-review.md` 123/82/102 erratum noted in `docs/status/research-log.md` §7 in the same commit.
@@ -85,4 +85,4 @@ The blocker is purely operational: pick a valid model route, then restart the mi
 
 - Never modify `data/raw/`, weeks 1–3 results/configs/tests/docs (beyond the named text corrections), never install new dependencies, never retune after seeing metrics, never hand-edit `results/`.
 - The week-4 config must be frozen before the first full backtest; if a coverage bar fails, apply the declared conformal fallback or ship persistence for that target.
-- Weeks 1–3 evidence must remain byte-identical to git HEAD; `32_verify_week4.py`/`43_verify_week5.py` enforce this.
+- Weeks 1–3 evidence must remain byte-identical to git HEAD; `32_gate_week4.py`/`43_gate_week5.py` enforce this.

@@ -31,7 +31,7 @@ PROVENANCE_TEMPLATE = """{dataset} — pinned data payload
 Source repository : {repository}
 Source tag        : {tag}
 Source commit     : {commit}
-Extracted         : {date} (scripts/01_bootstrap_data.py fetch mode)
+Extracted         : {date} (scripts/01_fetch_pinned_dataset.py fetch mode)
 
 Only this dataset directory is kept from the tagged clone; the full repository
 is never stored in this project. The CityLearn Python package itself comes

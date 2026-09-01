@@ -11,7 +11,7 @@ raw files on disk and against recorded environment traces.
 - **Where from:** ships inside the pinned CityLearn v2.5.0 source clone at
   `data/raw/citylearn_challenge_2023_phase_1/`
   (source tag `v2.5.0`, commit `29062af6d077409e1c37a3e53a6cac30fd4d02bc`).
-  The clone is fetched/verified by `scripts/01_bootstrap_data.py`, which avoids
+  The clone is fetched/verified by `scripts/01_fetch_pinned_dataset.py`, which avoids
   CityLearn's named-dataset download path (GitHub anonymous-API rate limits).
 - **Why this scenario:** chosen in Week 1 after rejecting the 2020 climate-zone example
   (9 buildings, inactive price observations, no cooling-device action) — rationale in

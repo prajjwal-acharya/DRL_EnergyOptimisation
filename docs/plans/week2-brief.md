@@ -106,7 +106,7 @@
   ```bash
   source .venv/bin/activate
   python -m pytest -q
-  python scripts/05_verify_week1.py
+  python scripts/05_gate_week1.py
   # Add and run the Week 2 baseline verifier once implemented.
   ```
 

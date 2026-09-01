@@ -98,7 +98,7 @@ Existing code to build on (do not duplicate; do not modify week-2 behaviour):
 - `configs/week2-baselines.yaml` — frozen; read-only reference.
 - Tests: all 39 existing tests must keep passing, unchanged.
 
-Trap to avoid: `scripts/12_verify_week2.py` requires `results/tables/baseline_comparison.csv`
+Trap to avoid: `scripts/12_gate_week2.py` requires `results/tables/baseline_comparison.csv`
 to contain **exactly 3 controller rows**. Do NOT add PPO rows to that file. The Week 3
 comparison goes to a **new** table `results/tables/ppo_vs_baselines.csv`. Nothing under
 `results/runs/baselines/` or `results/runs/smoke/` may be modified.
@@ -253,7 +253,7 @@ must remain byte-identical to its week-2 state.
 
 ### D3. Verification
 
-`scripts/25_verify_week3.py` (mirror the structure of `scripts/12_verify_week2.py`), checking
+`scripts/25_gate_week3.py` (mirror the structure of `scripts/12_gate_week2.py`), checking
 each as a hard pass/fail with a clear message:
 
 - `./.venv/bin/python -m pytest -q` passes (week-1 + week-2 + week-3 tests).
@@ -278,7 +278,7 @@ each as a hard pass/fail with a clear message:
   > safety shield have not started; they will be built on this frozen PPO foundation.
 - Single commit closing the phase, e.g. `feat: week-3 standard ppo controller and learning curves`.
 
-**Acceptance gate D:** `./.venv/bin/python scripts/25_verify_week3.py` exits 0; repo green;
+**Acceptance gate D:** `./.venv/bin/python scripts/25_gate_week3.py` exits 0; repo green;
 all changes committed.
 
 ---
@@ -312,6 +312,6 @@ all changes committed.
 4. Final-window (0–719) evaluations per seed with complete artifacts.
 5. `results/tables/ppo_multiseed_summary.csv` and `results/tables/ppo_vs_baselines.csv`
    exist; `baseline_comparison.csv` unchanged.
-6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/25_verify_week3.py`
+6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/25_gate_week3.py`
    exits 0.
 7. `docs/status/phase-reviews/week3-review.md` written; phase committed.

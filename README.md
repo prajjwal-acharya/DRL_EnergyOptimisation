@@ -58,7 +58,7 @@ simulation input, not a model of a specific state tariff.
 - [x] Locked evaluation harness — controller interface, runner, artifacts, metrics — validated by a B0 regression against the smoke anchors at 1e-9.
 - [x] Deterministic baselines B0 (neutral), B1 (fixed schedule), B2 (tariff-aware), evaluated on the locked dev (0–167) and final (0–719) windows.
 - [x] Standard PPO (seeds 42/43/44, frozen `configs/week3-ppo.yaml`), checkpoint evaluation through the locked harness, frozen selection rule, final-window evaluations.
-- [x] Phase gates `05/12/25_verify_week*.py` — artifacts, regressions, config hashes, byte-identity of prior evidence.
+- [x] Phase gates `05/12/25_gate_week*.py` — artifacts, regressions, config hashes, byte-identity of prior evidence.
 - [ ] Week 4 — probabilistic forecasting module ([`docs/plans/week4-implementation-plan.md`](docs/plans/week4-implementation-plan.md)).
 - [ ] Week 5 — uncertainty-aware PPO matched comparison, RQ1 verdict ([`docs/plans/week5-implementation-plan.md`](docs/plans/week5-implementation-plan.md)).
 - [ ] Safety shield, ablations, robustness matrix (October). Dashboard and manuscript (November).
@@ -76,23 +76,23 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 # Foundation (Week 1)
-python scripts/01_bootstrap_data.py          # verify pinned dataset (--fetch to re-extract)
-python scripts/02_make_schema.py             # derive the single-building schema
+python scripts/01_fetch_pinned_dataset.py          # verify pinned dataset (--fetch to re-extract)
+python scripts/02_derive_building_schema.py             # derive the single-building schema
 python scripts/03_inspect_environment.py     # export interface evidence
-python scripts/04_smoke_run.py               # deterministic zero-action smoke run
-python scripts/05_verify_week1.py            # Week 1 phase gate
+python scripts/04_run_smoke_test.py               # deterministic zero-action smoke run
+python scripts/05_gate_week1.py            # Week 1 phase gate
 
 # Deterministic baselines (Week 2)
 python scripts/10_run_baselines.py           # B0/B1/B2 on both locked windows
 python scripts/11_compare_baselines.py --window dev --window final
-python scripts/12_verify_week2.py            # Week 2 phase gate
+python scripts/12_gate_week2.py            # Week 2 phase gate
 
 # Standard PPO (Week 3) — ~5 min per seed on CPU
 python scripts/21_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
 python scripts/22_evaluate_checkpoints.py --seed 42                        # then 43, 44
 python scripts/23_evaluate_final_window.py
 python scripts/24_compare_ppo.py
-python scripts/25_verify_week3.py            # Week 3 phase gate
+python scripts/25_gate_week3.py            # Week 3 phase gate
 
 python -m pytest -q                          # 60 tests
 ```

@@ -290,7 +290,7 @@ run note, not hidden.
 
 ## Phase D — Verification, documentation, commit
 
-### D1. `scripts/32_verify_week4.py` (mirror `25_verify_week3.py` structure; hard pass/fail)
+### D1. `scripts/32_gate_week4.py` (mirror `25_gate_week3.py` structure; hard pass/fail)
 
 - `./.venv/bin/python -m pytest -q` passes (60 existing + all new tests).
 - `configs/week4-forecasting.yaml` exists and its SHA-256 matches the hash recorded in
@@ -328,7 +328,7 @@ and (d) the supervisor update:
 Single commit closing the phase, e.g.
 `feat: week-4 probabilistic forecasting module` (includes the §0.2 doc corrections).
 
-**Acceptance gate D:** `./.venv/bin/python scripts/32_verify_week4.py` exits 0; repo green;
+**Acceptance gate D:** `./.venv/bin/python scripts/32_gate_week4.py` exits 0; repo green;
 all changes committed.
 
 ---
@@ -360,6 +360,6 @@ all changes committed.
    interface Week 5 consumes.
 5. `results/tables/forecast_model_comparison.csv`, `forecast_calibration_by_hour.csv`,
    and the three figures exist and are NaN-free.
-6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/32_verify_week4.py`
+6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/32_gate_week4.py`
    exits 0.
 7. `docs/status/phase-reviews/week4-review.md` written with the required verbatim statements; phase committed.

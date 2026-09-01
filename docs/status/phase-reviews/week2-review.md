@@ -110,7 +110,7 @@ conservatively than the ±0.5 fixed levels; the CMDP reward/constraint definitio
   4 kinds × 2 windows).
 - Regeneration: `./.venv/bin/python scripts/10_run_baselines.py --window dev final` then
   `./.venv/bin/python scripts/11_compare_baselines.py --window dev --window final`; phase gate:
-  `./.venv/bin/python scripts/12_verify_week2.py`.
+  `./.venv/bin/python scripts/12_gate_week2.py`.
 - Note: `results/runs/baselines/b0_zero_actions/0-167/` is the retained Phase-B gate-B harness-
   regression artifact (pre dev/final naming lock), and the earlier `0-167_*` figure prefix
   predates that lock; both are kept untouched (nothing under `results/` is hand-edited) and are

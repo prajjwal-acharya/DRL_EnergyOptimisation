@@ -66,7 +66,7 @@ Existing code to build on (do not duplicate):
 
 - `src/energy_optimisation/environment.py`: `load_environment`, `describe_space`,
   `create_single_building_schema`, `neutral_actions`, `inspect_environment`.
-- `scripts/05_verify_week1.py`, `tests/test_environment.py` (2 tests, must keep passing).
+- `scripts/05_gate_week1.py`, `tests/test_environment.py` (2 tests, must keep passing).
 
 Frozen constants (single source of truth — put in `configs/week2-baselines.yaml`, never hard-code in code):
 
@@ -266,7 +266,7 @@ final-window run this file is frozen; any constant change creates `week2b.yaml` 
 
 ### D3. Verification
 
-`scripts/12_verify_week2.py` (mirror the structure of `scripts/05_verify_week1.py`). It must check,
+`scripts/12_gate_week2.py` (mirror the structure of `scripts/05_gate_week1.py`). It must check,
 each as a hard pass/fail with a clear message:
 
 - `./.venv/bin/python -m pytest -q` passes.
@@ -289,7 +289,7 @@ each as a hard pass/fail with a clear message:
   > it will be evaluated only after these baselines and measurements are locked.
 - Single commit closing the phase, e.g. `feat: week-2 cmdp specification and deterministic baselines`.
 
-**Acceptance gate D:** `scripts/12_verify_week2.py` exits 0; repo green; all changes committed.
+**Acceptance gate D:** `scripts/12_gate_week2.py` exits 0; repo green; all changes committed.
 
 ---
 
@@ -315,5 +315,5 @@ each as a hard pass/fail with a clear message:
 3. `results/tables/baseline_comparison.csv` + ≥4 comparison figures exist and are regenerable
    from `scripts/11_compare_baselines.py`.
 4. `./.venv/bin/python -m pytest -q` passes (week-1 tests included).
-5. `./.venv/bin/python scripts/12_verify_week2.py` exits 0.
+5. `./.venv/bin/python scripts/12_gate_week2.py` exits 0.
 6. `docs/status/phase-reviews/week2-review.md` written; phase committed.

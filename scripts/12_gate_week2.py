@@ -1,7 +1,7 @@
 """Verify the completed Week 2 phase: CMDP spec, harness, baselines, artifacts.
 
 Plan reference: docs/plans/week2-implementation-plan.md §D3 (mirrors the structure of
-``scripts/05_verify_week1.py``). Every check below is a hard pass/fail with a
+``scripts/05_gate_week1.py``). Every check below is a hard pass/fail with a
 clear message; the script exits non-zero on the first failure. No controller is
 trained and nothing under ``results/`` is modified — this reads recorded phase
 evidence only.

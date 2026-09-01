@@ -40,7 +40,7 @@ building-energy-risk-aware-rl/
 |     |- safety/
 |     `- evaluation/
 |- scripts/
-|  `- 04_smoke_run.py
+|  `- 04_run_smoke_test.py
 |- tests/
 |  `- test_environment.py
 `- results/

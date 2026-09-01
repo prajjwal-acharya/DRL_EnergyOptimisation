@@ -24,15 +24,15 @@
 Run the following from the repository root after installing `requirements.txt`:
 
 ```bash
-python scripts/01_bootstrap_data.py --skip-clone
-python scripts/02_make_schema.py
+python scripts/01_fetch_pinned_dataset.py --skip-clone
+python scripts/02_derive_building_schema.py
 python scripts/03_inspect_environment.py
-python scripts/04_smoke_run.py
+python scripts/04_run_smoke_test.py
 python -m pytest -q
-python scripts/05_verify_week1.py
+python scripts/05_gate_week1.py
 ```
 
-`scripts/05_verify_week1.py` checks the project structure, fixed research questions, source-control boundary, literature thresholds, single-building action interface, and terminal smoke evidence. It is deliberately not a research evaluation.
+`scripts/05_gate_week1.py` checks the project structure, fixed research questions, source-control boundary, literature thresholds, single-building action interface, and terminal smoke evidence. It is deliberately not a research evaluation.
 
 ## Named-dataset API note
 

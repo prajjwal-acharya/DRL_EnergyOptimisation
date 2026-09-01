@@ -41,15 +41,18 @@ and resume procedure are in `status/phase-reviews/week4-5-status.md`.
 
 `results/` was intentionally cleared for a from-scratch regeneration by hand —
 see `results/README.md` for the exact script order and runtimes. Until the
-pipeline is re-run, the Week-2/Week-3 verify gates fail by design (they check
-on-disk evidence). The numbers in `results.md` below were produced by exactly
+pipeline is re-run, the Week-1/2/3 verify gates fail by design (they check
+on-disk evidence), as do the four tests that read the smoke/inspection
+artifacts (`test_b0_matches_smoke_kpis`, `test_neutral_action_reproduces_b0_anchors`,
+and the two inspection-position tests in `test_observation_names.py`); the
+remaining 56 tests pass. The numbers in `results.md` below were produced by exactly
 those scripts in the previous workspace and will reproduce.
 
 ## Next action
 
 Execute `plans/week4-implementation-plan.md` top-to-bottom (phases A→D): forecasting
 package, frozen `configs/week4-forecasting.yaml`, 12-fold rolling-origin backtest,
-mechanical selection, `32_verify_week4.py` gate, `status/phase-reviews/week4-review.md`.
+mechanical selection, `32_gate_week4.py` gate, `status/phase-reviews/week4-review.md`.
 Then Week 5 per its plan. If resuming via the agent-conductor, see `automation/README.md`
 (this repository path contains a space — a space-free symlink is required for missions).
 

@@ -93,7 +93,7 @@ uncertainty information alone.
 - Determinism: features are a pure function of (frozen artefacts, t). The adapter
   computes them once at reset into a precomputed array indexed by t; training and
   evaluation consume that array. The SHA-256 of the flattened feature matrix is written
-  into every run's `run_metadata.json`; `43_verify_week5.py` recomputes and compares.
+  into every run's `run_metadata.json`; `43_gate_week5.py` recomputes and compares.
 
 ### 0.5 Locked decisions (do not revisit inside this phase)
 
@@ -256,7 +256,7 @@ mechanically; final-window artefacts complete for all 6.
   `results/figures/rq1_paired_deltas.png` (per-seed interval−point deltas, cost and
   discomfort).
 
-### D2. `scripts/43_verify_week5.py` (hard pass/fail, mirroring week 3/4)
+### D2. `scripts/43_gate_week5.py` (hard pass/fail, mirroring week 3/4)
 
 - `./.venv/bin/python -m pytest -q` passes (all phases).
 - Six complete run artefact sets under `results/runs/ppo_week5/`; `evaluations.csv` NaN-free;
@@ -292,7 +292,7 @@ hyperparameters were frozen at week-3 values before training and never retuned, 
 Single commit closing the phase, e.g.
 `feat: week-5 uncertainty-aware ppo matched comparison (rq1)`.
 
-**Acceptance gate D:** `./.venv/bin/python scripts/43_verify_week5.py` exits 0; repo green;
+**Acceptance gate D:** `./.venv/bin/python scripts/43_gate_week5.py` exits 0; repo green;
 all changes committed.
 
 ---
@@ -328,6 +328,6 @@ all changes committed.
 5. `rq1_point_vs_interval.csv`, `rq1_multiseed_summary.csv`,
    `rq1_feature_diagnostics.csv`, `rq1_verdict.json`, and the two RQ1 figures exist and
    are NaN-free; the verdict was produced by the pre-registered rule, unedited.
-6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/43_verify_week5.py`
+6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/43_gate_week5.py`
    exits 0; weeks 1–4 evidence byte-identical.
 7. `docs/status/phase-reviews/week5-review.md` written with the required verbatim statements; phase committed.

@@ -8,7 +8,7 @@ agent-conductor missions, plus the phase-verification wrappers they call.
 | File | Purpose |
 | --- | --- |
 | `check_pytest.sh` | cd to repo root, run `.venv/bin/python -m pytest -q` |
-| `check_week1.sh` … `check_week5.sh` | cd to repo root, run the phase gate (`scripts/05/12/25/32/43_verify_week*.py`) |
+| `check_week1.sh` … `check_week5.sh` | cd to repo root, run the phase gate (`scripts/05/12/25/32/43_gate_week*.py`) |
 | `chain_week4_then_week5.sh` | start the week-4 mission, poll status every 60 s, hard-gate on `check_week4.sh`, then start week 5. Stops and refuses week 5 if week 4 is blocked/failed. |
 
 ## Before running missions against THIS repository
