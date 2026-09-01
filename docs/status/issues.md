@@ -52,3 +52,12 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
     (see `LEGACY_WEEK3_CONFIG_SHA256` in `scripts/14_gate_week3.py`).
 12. `.pytest_cache` from the previous workspace listed 62 tests vs the current 60
     (not copied here; harmless wherever it regenerates).
+
+13. **Suppressed third-party warnings in pytest.ini (2026-09-01).** All 15 former
+    pytest warnings were upstream import-time noise, not project code: the
+    urllib3/LibreSSL notice (macOS system Python 3.9's ssl module; the project
+    makes no runtime network calls) and 14 pyparsing-deprecation notices raised
+    by matplotlib 3.9.4's own internals (fixed upstream only in matplotlib 3.10+,
+    which needs Python >= 3.10 — incompatible with the frozen stack). Both are
+    `ignore`d in `pytest.ini` with the rationale inline; revisit when the pinned
+    environment is ever deliberately upgraded.
