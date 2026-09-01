@@ -31,8 +31,8 @@ from typing import Dict, List, Mapping
 import yaml
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "src"))
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(PROJECT_ROOT))
 
 CONTROLLERS = ("b0_neutral", "b1_fixed_schedule", "b2_tariff_aware")
 WINDOWS = ("dev", "final")

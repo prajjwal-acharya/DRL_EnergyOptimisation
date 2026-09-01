@@ -7,11 +7,11 @@ import sys
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "src"))
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(PROJECT_ROOT))
 
-from energy_optimisation.environment import create_single_building_schema
 
+from src.energy_optimisation.environment import create_single_building_schema
 
 DEFAULT_PARENT = PROJECT_ROOT / "data/raw/citylearn_challenge_2023_phase_1/schema.json"
 DEFAULT_OUTPUT = PROJECT_ROOT / "configs/schema-building1.json"

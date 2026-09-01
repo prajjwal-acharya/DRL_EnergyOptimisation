@@ -29,9 +29,9 @@ from typing import Any, Dict, List
 
 import yaml
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT / "src"))
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from energy_optimisation.evaluation.artifacts import DISTRICT_KPIS_FILE, TRACE_FILE
 from energy_optimisation.evaluation.runner import (
@@ -40,7 +40,6 @@ from energy_optimisation.evaluation.runner import (
     run_and_record,
 )
 from energy_optimisation.rl import PPOController
-
 
 DEFAULT_CONFIG = PROJECT_ROOT / "configs/week3-ppo.yaml"
 DEFAULT_BASELINE_CONFIG = PROJECT_ROOT / "configs/week2-baselines.yaml"

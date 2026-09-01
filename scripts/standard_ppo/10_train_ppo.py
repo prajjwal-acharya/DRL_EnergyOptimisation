@@ -47,9 +47,9 @@ import stable_baselines3
 import torch
 import yaml
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT / "src"))
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import BaseCallback

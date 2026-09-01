@@ -20,9 +20,11 @@ from pathlib import Path
 from citylearn.data import DataSet
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CITYLEARN_REPOSITORY = "https://github.com/citylearn-project/CityLearn.git"
 CITYLEARN_TAG = "v2.5.0"
+sys.path.insert(0, str(PROJECT_ROOT))
+
 CITYLEARN_COMMIT = "29062af6d077409e1c37a3e53a6cac30fd4d02bc"
 DATASET_NAME = "citylearn_challenge_2023_phase_1"
 PROVENANCE_FILENAME = "PROVENANCE.txt"

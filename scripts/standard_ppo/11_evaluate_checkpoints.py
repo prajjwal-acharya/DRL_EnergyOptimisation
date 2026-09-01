@@ -47,9 +47,9 @@ import numpy as np
 import pandas as pd
 import yaml
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT / "src"))
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from energy_optimisation.evaluation.metrics import compute_derived_metrics
 from energy_optimisation.evaluation.runner import (
