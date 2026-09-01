@@ -1,4 +1,7 @@
 # Direct dependencies pinned for the initial reproducible environment.
+# Requires Python 3.9 exactly: on macOS use /usr/bin/python3 (system Python).
+# Homebrew python3 is 3.14, which has no matplotlib 3.9.4 wheel and fails to
+# build it from source.
 CityLearn==2.5.0
 pandas==2.3.3
 numpy==1.26.4
