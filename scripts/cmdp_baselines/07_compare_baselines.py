@@ -10,7 +10,7 @@ directory under ``results/runs/baselines/<controller>/<window>/`` and writes:
   cooling setpoint trace.
 
 Example:
-    ./.venv/bin/python scripts/cmdp_baselines/07_compare_baselines.py --window 0-167 0-719
+    ./.venv/bin/python scripts/cmdp_baselines/07_compare_baselines.py --window dev --window final
 """
 
 from __future__ import annotations
@@ -76,11 +76,12 @@ def parse_arguments() -> argparse.Namespace:
         default=None,
         dest="windows",
         metavar="WINDOW",
-        help="Window label(s) to compare, e.g. 0-167 (repeatable)",
+        help="Window label(s) to compare, e.g. dev or final (repeatable; "
+        "default: both locked windows)",
     )
     arguments = parser.parse_args()
     if not arguments.windows:
-        arguments.windows = ["0-167"]
+        arguments.windows = ["dev", "final"]
     return arguments
 
 
