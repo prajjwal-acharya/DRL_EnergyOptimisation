@@ -1,0 +1,12 @@
+# Ruff configuration — applies to both the editor extension and the CLI
+# (~/.local/bin/ruff check .). Project code is Python 3.9-compatible only.
+target-version = "py39"
+
+[lint.per-file-ignores]
+# Tests and scripts bootstrap sys.path with the project's src/ directory
+# before importing the package — the project's deliberate no-install design
+# (nothing is pip-installed; everything runs from a plain checkout). Those
+# imports therefore sit after code by necessity: E402 is the intended shape
+# there, not a defect. All other rules apply everywhere.
+"tests/*" = ["E402"]
+"scripts/*" = ["E402"]

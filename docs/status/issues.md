@@ -61,3 +61,11 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
     which needs Python >= 3.10 — incompatible with the frozen stack). Both are
     `ignore`d in `pytest.ini` with the rationale inline; revisit when the pinned
     environment is ever deliberately upgraded.
+
+14. **Latent bug found by linting and fixed (2026-09-01):** `evaluation/artifacts.py`
+    used `Optional` in the `write_run_artifacts` signature without importing it —
+    never a runtime error only because `from __future__ import annotations` makes
+    annotations lazy. Import added; six unused imports and one dead debug variable
+    removed across `src/`, `scripts/`, `tests/`; `ruff.toml` added exempting
+    tests/ and scripts/ from E402 (the intentional sys.path bootstrap). Ruff now
+    passes clean repo-wide; test outcomes unchanged.

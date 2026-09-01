@@ -31,7 +31,7 @@ from typing import Any, Dict, Mapping, Optional, Union
 import numpy as np
 import pandas as pd
 
-from energy_optimisation.baselines.controllers import ACTION_DIMENSION, Controller
+from energy_optimisation.baselines.controllers import Controller
 from energy_optimisation.observation_names import BUILDING_1_OBSERVATION_INDEX
 from energy_optimisation.rl.env_adapter import (
     DEFAULT_EPSILON,

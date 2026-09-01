@@ -53,7 +53,6 @@ if str(PROJECT_ROOT / "src") not in sys.path:
 
 from energy_optimisation.evaluation.metrics import compute_derived_metrics
 from energy_optimisation.evaluation.runner import (
-    district_kpis_as_dict,
     relative_to_project_root,
     resolve_git_commit,
     run_episode,

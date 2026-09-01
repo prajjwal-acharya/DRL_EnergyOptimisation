@@ -154,11 +154,10 @@ def test_neutral_action_reproduces_b0_anchors(rl_config, smoke_anchors) -> None:
 
     assert set(smoke_anchors) <= set(kpis), "B0 must produce every non-empty smoke KPI"
     worst_gap = 0.0
-    worst_name = ""
     for cost_function, expected in smoke_anchors.items():
         gap = abs(kpis[cost_function] - expected)
         if gap > worst_gap:
-            worst_gap, worst_name = gap, cost_function
+            worst_gap = gap
         assert gap <= TOLERANCE, (
             f"{cost_function}: expected {expected!r}, got {kpis[cost_function]!r} "
             f"(|delta|={gap} > {TOLERANCE})"
