@@ -1,6 +1,6 @@
 # Test Guide — What Each Test File Guarantees
 
-54 test functions → 60 collected pytest items. Run: `python -m pytest -q`.
+55 test functions → 61 collected pytest items. Run: `python -m pytest -q`.
 These are **contract tests**: they pin the project's invariants so that neither
 code drift nor accidental edits can silently change what a number means.
 Four of them read generated evidence under `results/` (noted below) — they pass
@@ -8,7 +8,7 @@ once the pipeline in `results/results-desc.md` has been re-run.
 
 | File | Tests | Guarantees |
 | --- | --- | --- |
-| `test_environment.py` | 2 | CityLearn loading utilities: `describe_space` returns JSON-safe Box bounds; `neutral_actions` yields zeros clipped into each action space. |
+| `test_environment.py` | 3 | CityLearn loading utilities: `describe_space` returns JSON-safe Box bounds; `neutral_actions` yields zeros clipped into each action space; env loading is CWD-independent (relative/null `root_directory` absolutized). |
 | `test_observation_names.py` | 5 | The name→index map is *the* observation truth: layout reproduces the parent-scenario inspection JSON positions (49-dim parent, 29-dim single-building); the frozen Building_1 index matches the live environment's observation space; the mapping is immutable (`MappingProxyType`); key control observations (hour, price, SoCs, indoor temp, setpoint, solar) are present and distinct. |
 | `test_controllers.py` | 14 fns / 20 items | The B0/B1/B2 decision rules exactly as frozen in `configs/week2-baselines.yaml`: shapes/dtype/finiteness under random observations (×3 controllers); B0 always zero; B1 follows the calendar bands and is price-blind; B2 discharges ≥ τ, charges < τ, τ is inclusive, SoC reserve band respected (edges inclusive), off-peak cooling equals B1's bands; determinism under seed (×3); baselines source free of forbidden imports; full dev-window runs complete 167 steps, NaN-free, with zero clipping through the real environment (×3). |
 | `test_metrics.py` | 6 | Derived-metric arithmetic on hand-built traces: hot-side-only comfort counting; SoC min/max and peak; clipping-event counting; reserve-event counting; solar self-consumption (incl. the 0.8 case and grid-limit exceedances, zero-generation edge); missing required columns raise `KeyError`. |

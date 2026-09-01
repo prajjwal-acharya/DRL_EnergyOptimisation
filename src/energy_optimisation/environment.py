@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 import numpy as np
 from citylearn.citylearn import CityLearnEnv
+
+# <project root>/src/energy_optimisation/environment.py -> <project root>
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def describe_space(space: Any) -> dict[str, Any]:
@@ -29,19 +32,66 @@ def describe_space(space: Any) -> dict[str, Any]:
     return description
 
 
+def _resolve_root_directory(schema: Mapping[str, Any], schema_path: Path) -> Path:
+    """Absolutize the schema's dataset root so env loading is CWD-independent.
+
+    CityLearn resolves a relative ``root_directory`` against the process working
+    directory, so any run launched from outside the repository root fails with a
+    ``FileNotFoundError`` for the dataset CSVs. Resolve the relative path against
+    the CWD first (historic behaviour), then the project root, then the schema's
+    own directory, and hand CityLearn an absolute path.
+    """
+
+    raw_value = schema.get("root_directory")
+    if raw_value is None:
+        # CityLearn's convention for datasets bundled beside their schema (the
+        # pinned parent schema uses root_directory: null): the dataset root is
+        # the schema's own directory.
+        return schema_path.parent.resolve()
+    raw = Path(raw_value)
+    if raw.is_absolute():
+        return raw
+
+    candidates = [
+        (Path.cwd() / raw).resolve(),
+        (PROJECT_ROOT / raw).resolve(),
+        (schema_path.parent / raw).resolve(),
+    ]
+    for candidate in candidates:
+        if candidate.is_dir():
+            return candidate
+
+    tried = ", ".join(str(candidate) for candidate in candidates)
+    raise FileNotFoundError(
+        f"Schema root_directory {str(raw)!r} does not exist; tried: {tried}"
+    )
+
+
 def load_environment(
     schema_path: str | Path,
     *,
     central_agent: bool = True,
     **environment_overrides: Any,
 ) -> CityLearnEnv:
-    """Load a CityLearn environment from a local schema file."""
+    """Load a CityLearn environment from a local schema file.
+
+    Works from any working directory: the schema's relative ``root_directory``
+    is absolutized (see ``_resolve_root_directory``) before the environment is
+    constructed.
+    """
 
     path = Path(schema_path)
     if not path.is_file():
         raise FileNotFoundError(f"CityLearn schema not found: {path}")
 
-    return CityLearnEnv(str(path), central_agent=central_agent, **environment_overrides)
+    schema = json.loads(path.read_text())
+    root_directory = _resolve_root_directory(schema, path)
+    return CityLearnEnv(
+        str(path),
+        root_directory=root_directory,
+        central_agent=central_agent,
+        **environment_overrides,
+    )
 
 
 def create_single_building_schema(
