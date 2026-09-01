@@ -278,7 +278,7 @@ class CityLearnRLEnv(gym.Env):
         if not normalisation or "features" not in normalisation:
             raise KeyError(
                 "config must provide a 'normalisation.features' block "
-                "(run scripts/20_compute_normalization_stats.py once)"
+                "(run scripts/09_compute_normalization_stats.py once)"
             )
         epsilon = float(normalisation.get("epsilon", DEFAULT_EPSILON))
         return resolve_normalisation_arrays(

@@ -10,7 +10,7 @@ directory under ``results/runs/baselines/<controller>/<window>/`` and writes:
   cooling setpoint trace.
 
 Example:
-    ./.venv/bin/python scripts/11_compare_baselines.py --window 0-167 0-719
+    ./.venv/bin/python scripts/07_compare_baselines.py --window 0-167 0-719
 """
 
 from __future__ import annotations

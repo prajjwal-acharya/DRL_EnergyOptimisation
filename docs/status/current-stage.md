@@ -52,7 +52,7 @@ those scripts in the previous workspace and will reproduce.
 
 Execute `plans/week4-implementation-plan.md` top-to-bottom (phases A→D): forecasting
 package, frozen `configs/week4-forecasting.yaml`, 12-fold rolling-origin backtest,
-mechanical selection, `32_gate_week4.py` gate, `status/phase-reviews/week4-review.md`.
+mechanical selection, `17_gate_week4.py` gate, `status/phase-reviews/week4-review.md`.
 Then Week 5 per its plan. If resuming via the agent-conductor, see `automation/README.md`
 (this repository path contains a space — a space-free symlink is required for missions).
 

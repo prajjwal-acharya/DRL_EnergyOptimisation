@@ -25,7 +25,7 @@ reserve band and grid limit from ``configs/week2-baselines.yaml`` (read-only
 reference) — no constants in code.
 
 Usage:
-    ./.venv/bin/python scripts/22_evaluate_checkpoints.py --seed 42 --window dev
+    ./.venv/bin/python scripts/11_evaluate_checkpoints.py --seed 42 --window dev
 """
 
 from __future__ import annotations

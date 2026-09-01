@@ -48,7 +48,7 @@ class PPOController(Controller):
     Parameters
     ----------
     model_path:
-        Path to an SB3 ``.zip`` checkpoint saved by ``scripts/21_train_ppo.py``.
+        Path to an SB3 ``.zip`` checkpoint saved by ``scripts/10_train_ppo.py``.
     config:
         Mapping loaded from ``configs/week3-ppo.yaml``; provides the frozen
         per-feature normalisation ``(offset, scale)`` pairs.

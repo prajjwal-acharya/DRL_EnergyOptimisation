@@ -251,7 +251,7 @@ the §0.5 feature list; every §0.6 hyperparameter; seeds; the §0.7 bars and se
 rule; the §0.8 daylight rule; output paths. Written **before** the first full backtest
 run and never edited afterwards (SHA-256 recorded by the runner into every artefact).
 
-### C2. `scripts/30_train_forecasters.py --config configs/week4-forecasting.yaml`
+### C2. `scripts/15_train_forecasters.py --config configs/week4-forecasting.yaml`
 
 For every model × target × fold: refit on the fold's training segment, predict all
 in-fold origins × horizons, and write:
@@ -264,7 +264,7 @@ in-fold origins × horizons, and write:
 - `results/runs/forecasting/backtest_run_metadata.json` — git commit, config SHA-256,
   torch/numpy versions, wall clock, seeds.
 
-### C3. `scripts/31_compare_forecasters.py`
+### C3. `scripts/16_compare_forecasters.py`
 
 Executes the frozen §0.7 selection mechanically and writes:
 
@@ -290,7 +290,7 @@ run note, not hidden.
 
 ## Phase D — Verification, documentation, commit
 
-### D1. `scripts/32_gate_week4.py` (mirror `25_gate_week3.py` structure; hard pass/fail)
+### D1. `scripts/17_gate_week4.py` (mirror `14_gate_week3.py` structure; hard pass/fail)
 
 - `./.venv/bin/python -m pytest -q` passes (60 existing + all new tests).
 - `configs/week4-forecasting.yaml` exists and its SHA-256 matches the hash recorded in
@@ -328,7 +328,7 @@ and (d) the supervisor update:
 Single commit closing the phase, e.g.
 `feat: week-4 probabilistic forecasting module` (includes the §0.2 doc corrections).
 
-**Acceptance gate D:** `./.venv/bin/python scripts/32_gate_week4.py` exits 0; repo green;
+**Acceptance gate D:** `./.venv/bin/python scripts/17_gate_week4.py` exits 0; repo green;
 all changes committed.
 
 ---
@@ -360,6 +360,6 @@ all changes committed.
    interface Week 5 consumes.
 5. `results/tables/forecast_model_comparison.csv`, `forecast_calibration_by_hour.csv`,
    and the three figures exist and are NaN-free.
-6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/32_gate_week4.py`
+6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/17_gate_week4.py`
    exits 0.
 7. `docs/status/phase-reviews/week4-review.md` written with the required verbatim statements; phase committed.

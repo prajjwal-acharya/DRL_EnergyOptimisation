@@ -8,8 +8,8 @@ set (run metadata, trace, district KPIs, derived §B4 metrics, run note) under
 ``results/runs/baselines/<controller>/<window>/``.
 
 Examples:
-    ./.venv/bin/python scripts/10_run_baselines.py --window dev --controllers b0_neutral
-    ./.venv/bin/python scripts/10_run_baselines.py --window dev final
+    ./.venv/bin/python scripts/06_run_baselines.py --window dev --controllers b0_neutral
+    ./.venv/bin/python scripts/06_run_baselines.py --window dev final
 """
 
 from __future__ import annotations

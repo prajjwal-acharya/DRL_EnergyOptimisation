@@ -93,7 +93,7 @@ uncertainty information alone.
 - Determinism: features are a pure function of (frozen artefacts, t). The adapter
   computes them once at reset into a precomputed array indexed by t; training and
   evaluation consume that array. The SHA-256 of the flattened feature matrix is written
-  into every run's `run_metadata.json`; `43_gate_week5.py` recomputes and compares.
+  into every run's `run_metadata.json`; `20_gate_week5.py` recomputes and compares.
 
 ### 0.5 Locked decisions (do not revisit inside this phase)
 
@@ -117,7 +117,7 @@ addressed by name `(<target>, <horizon>, <kind>)` — no magic indices anywhere.
 - Arm B `interval` (36 features): for each `T × H` in the same order:
   `q05`, `q50`, `q95`, `width90 = q95 − q05`.
 - Normalisation of all appended features: min-max `(offset, scale)` pairs computed once
-  by `scripts/40_compute_forecast_feature_stats.py` from the Week-4 **out-of-sample
+  by `scripts/18_compute_forecast_feature_stats.py` from the Week-4 **out-of-sample
   backtest predictions** (pooled over folds; identity pairs where max−min < 1e-12),
   written into both arm configs **identically**, frozen before training. Hand-editing
   afterwards is forbidden.
@@ -185,7 +185,7 @@ still pass, unchanged.
 
 ## Phase B — Feature statistics and configs frozen
 
-### B1. `scripts/40_compute_forecast_feature_stats.py`
+### B1. `scripts/18_compute_forecast_feature_stats.py`
 
 Reads the Week-4 backtest `predictions.csv` for the selected variants, computes the
 §0.6 min-max pairs for both feature blocks, and writes them into both arm configs'
@@ -200,7 +200,7 @@ if the configs already contain the block (no silent overwrites after freezing).
   provider artefact hash (Week-4 `selected_models.json` + model weights), feature-matrix
   SHA-256, torch/SB3 versions, device, seed.
 
-**Acceptance gate B:** `scripts/40_compute_forecast_feature_stats.py` runs once and exits 0;
+**Acceptance gate B:** `scripts/18_compute_forecast_feature_stats.py` runs once and exits 0;
 the A2 config-identity test passes; nothing under `results/` from weeks 1–4 changed.
 
 ---
@@ -209,7 +209,7 @@ the A2 config-identity test passes; nothing under `results/` from weeks 1–4 ch
 
 ### C1. Training
 
-- `./.venv/bin/python scripts/21_train_ppo.py --config configs/week5-point.yaml --seed 42`
+- `./.venv/bin/python scripts/10_train_ppo.py --config configs/week5-point.yaml --seed 42`
   (then 43, 44; then `configs/week5-interval.yaml` × 3 seeds) — 6 runs total,
   ≈5 min each on CPU per week-3 timing; budget ceiling 4 h per run (record timing,
   never cut silently).
@@ -221,7 +221,7 @@ the A2 config-identity test passes; nothing under `results/` from weeks 1–4 ch
 
 ### C2. Checkpoint evaluation and selection
 
-- Reuse `scripts/22_evaluate_checkpoints.py` / `scripts/23_evaluate_final_window.py`,
+- Reuse `scripts/11_evaluate_checkpoints.py` / `scripts/12_evaluate_final_window.py`,
   extended only with `--config` / `--output-root` flags (defaults unchanged; week-3
   behaviour regression-tested by gate A). Every checkpoint through the locked week-2
   harness on dev; `evaluations.csv` per run with the week-3 column set plus
@@ -236,7 +236,7 @@ mechanically; final-window artefacts complete for all 6.
 
 ## Phase D — RQ1 comparison, verification, documentation, commit
 
-### D1. Analysis artefacts (`scripts/42_compare_rq1.py`, new)
+### D1. Analysis artefacts (`scripts/19_compare_rq1.py`, new)
 
 - `results/tables/rq1_point_vs_interval.csv` — per seed × arm (`plain` reference rows
   copied from week-3 results, `point`, `interval`): dev and final `cost_total`,
@@ -256,7 +256,7 @@ mechanically; final-window artefacts complete for all 6.
   `results/figures/rq1_paired_deltas.png` (per-seed interval−point deltas, cost and
   discomfort).
 
-### D2. `scripts/43_gate_week5.py` (hard pass/fail, mirroring week 3/4)
+### D2. `scripts/20_gate_week5.py` (hard pass/fail, mirroring week 3/4)
 
 - `./.venv/bin/python -m pytest -q` passes (all phases).
 - Six complete run artefact sets under `results/runs/ppo_week5/`; `evaluations.csv` NaN-free;
@@ -292,7 +292,7 @@ hyperparameters were frozen at week-3 values before training and never retuned, 
 Single commit closing the phase, e.g.
 `feat: week-5 uncertainty-aware ppo matched comparison (rq1)`.
 
-**Acceptance gate D:** `./.venv/bin/python scripts/43_gate_week5.py` exits 0; repo green;
+**Acceptance gate D:** `./.venv/bin/python scripts/20_gate_week5.py` exits 0; repo green;
 all changes committed.
 
 ---
@@ -328,6 +328,6 @@ all changes committed.
 5. `rq1_point_vs_interval.csv`, `rq1_multiseed_summary.csv`,
    `rq1_feature_diagnostics.csv`, `rq1_verdict.json`, and the two RQ1 figures exist and
    are NaN-free; the verdict was produced by the pre-registered rule, unedited.
-6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/43_gate_week5.py`
+6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/20_gate_week5.py`
    exits 0; weeks 1–4 evidence byte-identical.
 7. `docs/status/phase-reviews/week5-review.md` written with the required verbatim statements; phase committed.

@@ -98,7 +98,7 @@ Existing code to build on (do not duplicate; do not modify week-2 behaviour):
 - `configs/week2-baselines.yaml` — frozen; read-only reference.
 - Tests: all 39 existing tests must keep passing, unchanged.
 
-Trap to avoid: `scripts/12_gate_week2.py` requires `results/tables/baseline_comparison.csv`
+Trap to avoid: `scripts/08_gate_week2.py` requires `results/tables/baseline_comparison.csv`
 to contain **exactly 3 controller rows**. Do NOT add PPO rows to that file. The Week 3
 comparison goes to a **new** table `results/tables/ppo_vs_baselines.csv`. Nothing under
 `results/runs/baselines/` or `results/runs/smoke/` may be modified.
@@ -126,7 +126,7 @@ exposing `CityLearnRLEnv(gymnasium.Env)`:
   `configs/week3-ppo.yaml`). Internally uses `environment.load_environment`.
 - **Observation space**: `Box` matching the 49-dim central-agent observation, normalised.
   Normalisation constants are per-feature `(offset, scale)` pairs frozen in
-  `configs/week3-ppo.yaml` and computed once by `scripts/20_compute_normalization_stats.py`
+  `configs/week3-ppo.yaml` and computed once by `scripts/09_compute_normalization_stats.py`
   from the existing B0 dev trace `results/runs/baselines/b0_neutral/dev/trace.csv` and the
   schema's static observation ranges: features already bounded in [0, 1] (SoCs, occupancy,
   ratio-type signals) use identity; unbounded physical signals (temperatures, energies,
@@ -173,7 +173,7 @@ pass; the B0-anchor regression is exact (≤1e-9).
   `ent_coef = 0.01`, `vf_coef = 0.5`, `max_grad_norm = 0.5`, `total_timesteps = 200000`,
   `checkpoint_every = 10000`, `seed = 42`, `device = cpu`, plus the normalisation stats
   block from Phase A.
-- `scripts/21_train_ppo.py --config configs/week3-ppo.yaml --seed 42` — SB3 `PPO` on
+- `scripts/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42` — SB3 `PPO` on
   `CityLearnRLEnv`; saves numbered checkpoints under `results/runs/ppo/seed42/checkpoints/`
   every `checkpoint_every` steps plus `final`, writes the SB3 CSV monitor and a
   `run_metadata.json` (git commit, config hash, torch/SB3 versions, device, seed).
@@ -205,7 +205,7 @@ CityLearn action, deterministic (no sampling). This is what plugs into the exist
 
 ### C2. Checkpoint evaluation
 
-`scripts/22_evaluate_checkpoints.py --seed 42 --window dev`:
+`scripts/11_evaluate_checkpoints.py --seed 42 --window dev`:
 
 - For every checkpoint: run through `evaluation/runner.py` on the dev window (seed 42),
   producing the same KPI set and derived metrics as the week-2 baselines.
@@ -245,7 +245,7 @@ proceed to Phase D anyway.
 
 ### D2. Comparison table (additive — never touch week-2 evidence)
 
-`scripts/24_compare_ppo.py` — reads the week-2 baseline table and the new PPO runs, writes
+`scripts/13_compare_ppo.py` — reads the week-2 baseline table and the new PPO runs, writes
 `results/tables/ppo_vs_baselines.csv` (rows: B0, B1, B2, PPO-seed42, PPO-seed43,
 PPO-seed44; columns: the fixed week-2 KPI set, both windows) plus one figure
 `results/figures/ppo_vs_baselines_cost.png`. `results/tables/baseline_comparison.csv`
@@ -253,7 +253,7 @@ must remain byte-identical to its week-2 state.
 
 ### D3. Verification
 
-`scripts/25_gate_week3.py` (mirror the structure of `scripts/12_gate_week2.py`), checking
+`scripts/14_gate_week3.py` (mirror the structure of `scripts/08_gate_week2.py`), checking
 each as a hard pass/fail with a clear message:
 
 - `./.venv/bin/python -m pytest -q` passes (week-1 + week-2 + week-3 tests).
@@ -278,7 +278,7 @@ each as a hard pass/fail with a clear message:
   > safety shield have not started; they will be built on this frozen PPO foundation.
 - Single commit closing the phase, e.g. `feat: week-3 standard ppo controller and learning curves`.
 
-**Acceptance gate D:** `./.venv/bin/python scripts/25_gate_week3.py` exits 0; repo green;
+**Acceptance gate D:** `./.venv/bin/python scripts/14_gate_week3.py` exits 0; repo green;
 all changes committed.
 
 ---
@@ -312,6 +312,6 @@ all changes committed.
 4. Final-window (0–719) evaluations per seed with complete artifacts.
 5. `results/tables/ppo_multiseed_summary.csv` and `results/tables/ppo_vs_baselines.csv`
    exist; `baseline_comparison.csv` unchanged.
-6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/25_gate_week3.py`
+6. `./.venv/bin/python -m pytest -q` passes; `./.venv/bin/python scripts/14_gate_week3.py`
    exits 0.
 7. `docs/status/phase-reviews/week3-review.md` written; phase committed.

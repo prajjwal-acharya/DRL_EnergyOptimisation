@@ -12,10 +12,10 @@ week-2 baseline table (read-only) and the Phase C/D PPO artifacts and writes:
   both windows.
 
 ``results/tables/baseline_comparison.csv`` is consumed read-only and must stay
-byte-identical to its week-2 state (25_gate_week3.py enforces this against git).
+byte-identical to its week-2 state (14_gate_week3.py enforces this against git).
 
 Usage:
-    ./.venv/bin/python scripts/24_compare_ppo.py --seeds 42 43 44
+    ./.venv/bin/python scripts/13_compare_ppo.py --seeds 42 43 44
 """
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ PPO_VS_BASELINES_TABLE = PROJECT_ROOT / "results/tables/ppo_vs_baselines.csv"
 COST_FIGURE = PROJECT_ROOT / "results/figures/ppo_vs_baselines_cost.png"
 
 WINDOWS = ("dev", "final")
-# Fixed week-2 primary-KPI column set (scripts/11_compare_baselines.py order).
+# Fixed week-2 primary-KPI column set (scripts/07_compare_baselines.py order).
 PRIMARY_KPIS = (
     "cost_total",
     "all_time_peak_average",
@@ -207,7 +207,7 @@ def main() -> int:
     seeds = [int(seed) for seed in args.seeds]
 
     # Guardrail: this script only ever reads the week-2 table (BASELINE_TABLE
-    # is never a write target); 25_gate_week3.py re-derives its content from the
+    # is never a write target); 14_gate_week3.py re-derives its content from the
     # week-2 run artifacts to prove it stayed byte-identical.
 
     summary = build_multiseed_summary(seeds)

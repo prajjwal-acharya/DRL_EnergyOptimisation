@@ -180,7 +180,7 @@ grid-limit exceedance count vs `P_grid,max`.
 
 ### B5. Comparison report
 
-`scripts/11_compare_baselines.py` — reads all run dirs for a window and writes
+`scripts/07_compare_baselines.py` — reads all run dirs for a window and writes
 `results/tables/baseline_comparison.csv` (rows = controllers, columns = fixed KPI set) and
 `results/figures/`: (1) cost-by-controller bar, (2) 48-hour net-demand overlay of all controllers,
 (3) electrical SoC trace, (4) indoor temperature vs cooling setpoint trace.
@@ -261,12 +261,12 @@ final-window run this file is frozen; any constant change creates `week2b.yaml` 
 3. Fix **code bugs only**. Never tune constants to improve results — a worse B2 result is a
    recorded finding, not a failure to fix. Rerun all three together after any fix.
 4. Final runs: B0, B1, B2 on window 0–719 with the identical config.
-5. `scripts/11_compare_baselines.py` for both windows; record `Ē_B0`, `P_ref`, `P_grid,max`
+5. `scripts/07_compare_baselines.py` for both windows; record `Ē_B0`, `P_ref`, `P_grid,max`
    values into `docs/reference/cmdp-spec.md` (fill the placeholders).
 
 ### D3. Verification
 
-`scripts/12_gate_week2.py` (mirror the structure of `scripts/05_gate_week1.py`). It must check,
+`scripts/08_gate_week2.py` (mirror the structure of `scripts/05_gate_week1.py`). It must check,
 each as a hard pass/fail with a clear message:
 
 - `./.venv/bin/python -m pytest -q` passes.
@@ -289,7 +289,7 @@ each as a hard pass/fail with a clear message:
   > it will be evaluated only after these baselines and measurements are locked.
 - Single commit closing the phase, e.g. `feat: week-2 cmdp specification and deterministic baselines`.
 
-**Acceptance gate D:** `scripts/12_gate_week2.py` exits 0; repo green; all changes committed.
+**Acceptance gate D:** `scripts/08_gate_week2.py` exits 0; repo green; all changes committed.
 
 ---
 
@@ -313,7 +313,7 @@ each as a hard pass/fail with a clear message:
 1. `docs/reference/cmdp-spec.md` complete per gate A with recorded `Ē_B0`, `P_ref`, `P_grid,max`.
 2. B0, B1, B2 implemented, evaluated on windows 0–167 and 0–719, artifacts under `results/runs/baselines/`.
 3. `results/tables/baseline_comparison.csv` + ≥4 comparison figures exist and are regenerable
-   from `scripts/11_compare_baselines.py`.
+   from `scripts/07_compare_baselines.py`.
 4. `./.venv/bin/python -m pytest -q` passes (week-1 tests included).
-5. `./.venv/bin/python scripts/12_gate_week2.py` exits 0.
+5. `./.venv/bin/python scripts/08_gate_week2.py` exits 0.
 6. `docs/status/phase-reviews/week2-review.md` written; phase committed.

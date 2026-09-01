@@ -58,7 +58,7 @@ simulation input, not a model of a specific state tariff.
 - [x] Locked evaluation harness — controller interface, runner, artifacts, metrics — validated by a B0 regression against the smoke anchors at 1e-9.
 - [x] Deterministic baselines B0 (neutral), B1 (fixed schedule), B2 (tariff-aware), evaluated on the locked dev (0–167) and final (0–719) windows.
 - [x] Standard PPO (seeds 42/43/44, frozen `configs/week3-ppo.yaml`), checkpoint evaluation through the locked harness, frozen selection rule, final-window evaluations.
-- [x] Phase gates `05/12/25_gate_week*.py` — artifacts, regressions, config hashes, byte-identity of prior evidence.
+- [x] Phase gates `05/08/14_gate_week*.py` — artifacts, regressions, config hashes, byte-identity of prior evidence.
 - [ ] Week 4 — probabilistic forecasting module ([`docs/plans/week4-implementation-plan.md`](docs/plans/week4-implementation-plan.md)).
 - [ ] Week 5 — uncertainty-aware PPO matched comparison, RQ1 verdict ([`docs/plans/week5-implementation-plan.md`](docs/plans/week5-implementation-plan.md)).
 - [ ] Safety shield, ablations, robustness matrix (October). Dashboard and manuscript (November).
@@ -83,16 +83,16 @@ python scripts/04_run_smoke_test.py               # deterministic zero-action sm
 python scripts/05_gate_week1.py            # Week 1 phase gate
 
 # Deterministic baselines (Week 2)
-python scripts/10_run_baselines.py           # B0/B1/B2 on both locked windows
-python scripts/11_compare_baselines.py --window dev --window final
-python scripts/12_gate_week2.py            # Week 2 phase gate
+python scripts/06_run_baselines.py           # B0/B1/B2 on both locked windows
+python scripts/07_compare_baselines.py --window dev --window final
+python scripts/08_gate_week2.py            # Week 2 phase gate
 
 # Standard PPO (Week 3) — ~5 min per seed on CPU
-python scripts/21_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
-python scripts/22_evaluate_checkpoints.py --seed 42                        # then 43, 44
-python scripts/23_evaluate_final_window.py
-python scripts/24_compare_ppo.py
-python scripts/25_gate_week3.py            # Week 3 phase gate
+python scripts/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42   # then 43, 44
+python scripts/11_evaluate_checkpoints.py --seed 42                        # then 43, 44
+python scripts/12_evaluate_final_window.py
+python scripts/13_compare_ppo.py
+python scripts/14_gate_week3.py            # Week 3 phase gate
 
 python -m pytest -q                          # 60 tests
 ```
@@ -106,7 +106,7 @@ Generated evidence lands under `results/` (git-ignored; always regenerable from
 docs/        plans/ (what we intend), reference/ (how things work), status/ (where we are)
 src/         the library — environment, baselines, evaluation harness, RL adapter
 configs/     frozen experiment definitions (schema, week2 baselines, week3 PPO)
-scripts/     runnable commands, numbered by phase (01–05 setup, 10–12 week 2, 20–25 week 3)
+scripts/     runnable commands, numbered 01–14 in execution order (weeks 4–5 continue at 15–20)
 tests/       60 contract tests, incl. the B0-anchor 1e-9 regression
 results/     generated evidence — runs/, tables/, figures/ — git-ignored
 data/raw/    the pinned citylearn_challenge_2023_phase_1 dataset — read-only, git-ignored

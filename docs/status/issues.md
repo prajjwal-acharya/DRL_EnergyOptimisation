@@ -40,7 +40,7 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
    `cmdp-spec.md` hour annotation says h ∈ {0–23} while the dataset/observations run
    1–24 (the frozen normalisation offset 1 / scale 23 is correct).
 9. `automation/check_week4.sh` / `check_week5.sh` fail by design until
-   `scripts/32_gate_week4.py` / `43_gate_week5.py` exist (they are phase deliverables).
+   `scripts/17_gate_week4.py` / `20_gate_week5.py` exist (they are phase deliverables).
 10. This repository path contains a space ("Semester 7") — agent-conductor missions need
     a space-free symlink to run verification wrappers (see `automation/README.md`).
 11. Fresh-start notes: this repository began with the single migration commit
@@ -49,6 +49,6 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
     from the previous workspace retain their original commit hashes (`4c2c49f`-era for
     baselines, `fd52a53` for PPO), which refer to the previous repository's history; the
     week-3 gate accepts the pre-migration config hash (`1661674d…`) for exactly these runs
-    (see `LEGACY_WEEK3_CONFIG_SHA256` in `scripts/25_gate_week3.py`).
+    (see `LEGACY_WEEK3_CONFIG_SHA256` in `scripts/14_gate_week3.py`).
 12. `.pytest_cache` from the previous workspace listed 62 tests vs the current 60
     (not copied here; harmless wherever it regenerates).

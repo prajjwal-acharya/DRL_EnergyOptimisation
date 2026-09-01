@@ -15,7 +15,7 @@ the week-3 reward block, SoC reserve band and grid limit from
 ``configs/week2-baselines.yaml`` (read-only reference).
 
 Usage:
-    ./.venv/bin/python scripts/23_evaluate_final_window.py --seeds 42 43 44
+    ./.venv/bin/python scripts/12_evaluate_final_window.py --seeds 42 43 44
 """
 
 from __future__ import annotations

@@ -1,7 +1,7 @@
 """Verify the completed Week 3 phase: PPO adapter, training, learning curves.
 
 Plan reference: docs/plans/week3-implementation-plan.md §D3 (mirrors the structure of
-``scripts/12_gate_week2.py``). Every check below is a hard pass/fail with a
+``scripts/08_gate_week2.py``). Every check below is a hard pass/fail with a
 clear message; the script exits non-zero if any check fails. Nothing under
 ``results/`` is modified — this reads recorded phase evidence only.
 

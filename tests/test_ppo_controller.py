@@ -3,7 +3,7 @@
 Plan reference: docs/plans/week3-implementation-plan.md §C1–§C3. These tests use a
 tiny randomly-initialised PPO policy (49-dim observation stub) so they do not
 depend on training artifacts; end-to-end checkpoint evaluation runs through
-``scripts/22_evaluate_checkpoints.py`` on the locked harness.
+``scripts/11_evaluate_checkpoints.py`` on the locked harness.
 """
 
 from __future__ import annotations

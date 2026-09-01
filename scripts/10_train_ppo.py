@@ -17,7 +17,7 @@ environment steps) is written from the monitor log after training.
 
 Usage:
 
-    ./.venv/bin/python scripts/21_train_ppo.py --config configs/week3-ppo.yaml --seed 42
+    ./.venv/bin/python scripts/10_train_ppo.py --config configs/week3-ppo.yaml --seed 42
 
 ``--output-dir`` / ``--figures-dir`` / ``--total-timesteps`` exist solely for
 short code-validation smoke runs outside the real artifact tree; real runs use

@@ -34,10 +34,10 @@ RL-Forecast-Energy/
 │   └── schema-building1.json derived single-building CityLearn schema
 │
 ├── scripts/             runnable commands — numbered by phase
-│   ├── 01–05_fetch dataset / derive schema / inspect / smoke / gate   Week 1
-│   ├── 10–12_run / compare / gate                                 Week 2 baselines
-│   ├── 20–25_norm stats / train / eval ckpts / eval final / compare / gate     Week 3
-│   └── 30–32, 40–43                                               Week 4/5 (planned)
+│   ├── 01–05  foundation: fetch dataset, derive schema, inspect, smoke, gate
+│   ├── 06–08  Week 2 baselines: run, compare, gate
+│   ├── 09–14  Week 3 PPO: norm stats, train, eval checkpoints, eval final, compare, gate
+│   └── 15–20  Weeks 4–5 (planned): forecasting + uncertainty-aware PPO
 │
 ├── tests/               60 contract tests (B0-anchor 1e-9 regression lives in test_rl_env.py)
 │
