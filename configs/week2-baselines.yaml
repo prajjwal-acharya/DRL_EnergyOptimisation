@@ -1,0 +1,79 @@
+# Week 2 frozen baseline configuration (docs/plans/week2-implementation-plan.md §D1).
+#
+# Single source of truth for every Week 2 constant. Frozen after the first full
+# final-window run; any later change creates `week2b.yaml`, never a silent edit.
+# Code must load constants from this file — no magic numbers in source.
+
+experiment_name: week2-deterministic-baselines
+citylearn_version: 2.5.0
+citylearn_source_tag: v2.5.0
+citylearn_source_commit: 29062af6d077409e1c37a3e53a6cac30fd4d02bc
+dataset: citylearn_challenge_2023_phase_1
+
+schema_path: configs/schema-building1.json
+central_agent: true
+
+random_seed: 42
+
+windows:
+  dev:
+    simulation_start_time_step: 0
+    simulation_end_time_step: 167
+  final:
+    simulation_start_time_step: 0
+    simulation_end_time_step: 719
+
+# B2 tariff threshold tau (USD/kWh): mid-to-peak band edge, data-derived from
+# data/raw pricing.csv and frozen by the plan (§0).
+tariff_threshold_usd_per_kwh: 0.0439
+
+# SoC reserve band [low, high] (research assumption; requested violations are
+# counted as reserve events, CityLearn still enforces physical bounds).
+reserve_low_soc: 0.2
+reserve_high_soc: 0.9
+
+# Comfort band Delta T above cooling setpoint in deg C (research assumption).
+comfort_band_c: 2.0
+
+# Reward weights declared for September PPO only (never used by baselines).
+reward_weights:
+  w_E: 1.0
+  w_P: 1.0
+  w_C: 10.0
+
+# B1 fixed-schedule action levels (plan §C1; inclusive hour bands over the raw
+# `hour` observation). Requested actions; first matching band wins.
+b1_fixed_schedule:
+  electrical_storage:
+    bands: [[0, 5, -0.5], [17, 20, 0.5]]
+    default_level: 0.0
+  dhw_storage:
+    bands: [[0, 5, -0.5]]
+    default_level: 0.0
+  cooling_device:
+    bands: [[12, 20, 0.8], [8, 11, 0.5], [21, 22, 0.5]]
+    default_level: 0.2
+
+# B2 tariff-aware heuristic levels (plan §C2).
+b2_tariff_aware:
+  peak_discharge_level: 0.5
+  off_peak_charge_level: -0.5
+  peak_cooling_device_level: 0.6
+  # Off-peak cooling follows the same hour bands/levels as B1.
+
+# Grid import limit P_grid,max (kWh per hourly step): 95th percentile of the
+# B0 dev-window net-consumption series, NumPy linear interpolation, float64.
+# Data-derived assumption recorded in docs/reference/cmdp-spec.md §5; verified against
+# the Phase-B harness B0 dev run (value reproduced exactly).
+grid_limit_p_max: 1.8084184527397151
+
+# Reference statistics of the B0 dev-window run consumed by the CMDP reward
+# (docs/reference/cmdp-spec.md §4); consumed by PPO in September only.
+reference_statistics:
+  E_bar_b0: 0.477229108554339
+  P_ref: 7.694016456604004
+
+outputs:
+  baselines_root: results/runs/baselines
+  comparison_table: results/tables/baseline_comparison.csv
+  figures_dir: results/figures

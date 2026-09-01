@@ -1,0 +1,129 @@
+experiment_name: week3-standard-ppo
+schema_path: configs/schema-building1.json
+central_agent: true
+random_seed: 42
+windows:
+  dev:
+    simulation_start_time_step: 0
+    simulation_end_time_step: 167
+  final:
+    simulation_start_time_step: 0
+    simulation_end_time_step: 719
+reward:
+  w_E: 1.0
+  w_P: 1.0
+  w_C: 10.0
+  E_bar_b0: 0.477229108554339
+  P_ref: 7.694016456604004
+  comfort_band_c: 2.0
+normalisation:
+  epsilon: 1.0e-08
+  stats_source: results/runs/baselines/b0_neutral/dev/trace.csv
+  rule: identity when static range is [0,1]; otherwise min-max from the B0 dev-window
+    trace when a trace column exists; otherwise min-max from schema-static observation
+    ranges
+  features:
+    day_type:
+      offset: 1.0
+      scale: 6.0
+    hour:
+      offset: 1.0
+      scale: 23.0
+    outdoor_dry_bulb_temperature:
+      offset: 21.3799991607666
+      scale: 18.940000534057617
+    outdoor_dry_bulb_temperature_predicted_1:
+      offset: 21.385894775390625
+      scale: 19.062137603759766
+    outdoor_dry_bulb_temperature_predicted_2:
+      offset: 20.812238693237305
+      scale: 20.949186325073242
+    outdoor_dry_bulb_temperature_predicted_3:
+      offset: 20.94701385498047
+      scale: 19.537490844726562
+    diffuse_solar_irradiance:
+      offset: 0.0
+      scale: 466.6000061035156
+    diffuse_solar_irradiance_predicted_1:
+      offset: 0.0
+      scale: 461.25140380859375
+    diffuse_solar_irradiance_predicted_2:
+      offset: 0.0
+      scale: 554.8287353515625
+    diffuse_solar_irradiance_predicted_3:
+      offset: 0.0
+      scale: 551.7981567382812
+    direct_solar_irradiance:
+      offset: 0.0
+      scale: 908.489990234375
+    direct_solar_irradiance_predicted_1:
+      offset: 0.0
+      scale: 1056.3348388671875
+    direct_solar_irradiance_predicted_2:
+      offset: 0.0
+      scale: 1129.74072265625
+    direct_solar_irradiance_predicted_3:
+      offset: 0.0
+      scale: 1237.5875244140625
+    carbon_intensity:
+      offset: 0.337515264749527
+      scale: 0.21854761242866516
+    indoor_dry_bulb_temperature:
+      offset: 22.222230911254883
+      scale: 15.58845329284668
+    non_shiftable_load:
+      offset: 0.319633424282074
+      scale: 7.139335215091705
+    solar_generation:
+      offset: 0.0
+      scale: 1.6491804199218751
+    dhw_storage_soc:
+      offset: 0.0
+      scale: 1.0
+    electrical_storage_soc:
+      offset: 0.0
+      scale: 1.0
+    net_electricity_consumption:
+      offset: -1.293045997619629
+      scale: 8.987062454223633
+    electricity_pricing:
+      offset: 0.028929999098181725
+      scale: 0.029740000143647194
+    electricity_pricing_predicted_1:
+      offset: 0.028929999098181725
+      scale: 0.029740000143647194
+    electricity_pricing_predicted_2:
+      offset: 0.028929999098181725
+      scale: 0.029740000143647194
+    electricity_pricing_predicted_3:
+      offset: 0.028929999098181725
+      scale: 0.029740000143647194
+    cooling_demand:
+      offset: 0.0
+      scale: 21.217098236083984
+    dhw_demand:
+      offset: 0.0
+      scale: 9.130702018737793
+    occupant_count:
+      offset: 0.0
+      scale: 3.0
+    indoor_dry_bulb_temperature_cooling_set_point:
+      offset: 20.0
+      scale: 7.222221374511719
+ppo:
+  policy: MlpPolicy
+  policy_hidden_layers: [64, 64]
+  n_steps: 2048
+  batch_size: 256
+  n_epochs: 10
+  learning_rate: 0.0003
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  total_timesteps: 200000
+  checkpoint_every: 10000
+  seed: 42
+  device: cpu

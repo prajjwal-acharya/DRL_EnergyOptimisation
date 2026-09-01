@@ -1,0 +1,15 @@
+# Day 3 deterministic, zero-action smoke simulation.
+experiment_name: citylearn-2023-phase-1-building-1-smoke
+citylearn_version: 2.5.0
+citylearn_source_tag: v2.5.0
+citylearn_source_commit: 29062af6d077409e1c37a3e53a6cac30fd4d02bc
+dataset: citylearn_challenge_2023_phase_1
+parent_schema_path: data/raw/citylearn-2.5.0/data/datasets/citylearn_challenge_2023_phase_1/schema.json
+schema_path: configs/schema-building1.json
+candidate_building: Building_1
+central_agent: true
+random_seed: 42
+evaluation_start_time_step: 0
+evaluation_end_time_step: 167
+controller: deterministic_zero_action
+output_directory: results/runs/smoke
