@@ -37,6 +37,14 @@ and resume procedure are in `status/phase-reviews/week4-5-status.md`.
 - [ ] Observation variants plain/point/interval + RQ1 matched comparison (Week 5)
 - [ ] Safety shield (`src/energy_optimisation/safety/` — reserved empty)
 
+## State note (1 September 2026)
+
+`results/` was intentionally cleared for a from-scratch regeneration by hand —
+see `results/README.md` for the exact script order and runtimes. Until the
+pipeline is re-run, the Week-2/Week-3 verify gates fail by design (they check
+on-disk evidence). The numbers in `results.md` below were produced by exactly
+those scripts in the previous workspace and will reproduce.
+
 ## Next action
 
 Execute `plans/week4-implementation-plan.md` top-to-bottom (phases A→D): forecasting

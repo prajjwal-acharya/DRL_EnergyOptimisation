@@ -61,6 +61,11 @@ cost bottoms early (20k–40k) and drifts up — training trades cost for comfor
 
 ## Where the evidence lives
 
+> `results/` is currently **cleared for regeneration** (see `results/README.md`).
+> The paths below describe where each script re-creates the evidence when run;
+> the original artifacts are preserved in the previous workspace
+> (`/Volumes/code/Research Project/code/outputs/`).
+
 - Baseline runs: `results/runs/baselines/<controller>/{dev,final}/` · PPO:
   `results/runs/ppo/seed{42,43,44}/` (checkpoints, evaluations, selections, final runs).
 - Tables: `results/tables/{baseline_comparison,ppo_multiseed_summary,ppo_vs_baselines}.csv`.
