@@ -48,6 +48,14 @@ Worker attempts 2 and 3 failed with a different transient OpenCode server error 
 
 ## 5. How to resume
 
+> **Update (1 September 2026):** the current repository
+> (`DRL_EnergyOptimisation`) has no conductor integration — the `automation/`
+> wrappers and chain script were removed in favour of manual execution. The
+> conductor-based resume steps below describe the *previous* workspace, where
+> the mission state still lives; in the current repo, simply execute
+> `docs/plans/week4-implementation-plan.md` by hand and finish with
+> `scripts/17_gate_week4.py`.
+
 The blocker is purely operational: pick a valid model route, then restart the mission. The recorded restart command (from the week-4 mission's `daemon.json`) is:
 
 ```bash

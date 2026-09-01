@@ -54,9 +54,6 @@ RL-Forecast-Energy/
 │   ├── inspection/         environment interface evidence
 │   ├── tables/             the comparison CSVs (= "the results")
 │   └── figures/            all PNGs
-│
-└── automation/          agent-conductor wrappers (check_*.sh), the week4→week5 chain
-                         script, and notes on running missions against this repo
 ```
 
 ## What goes where — quick rules

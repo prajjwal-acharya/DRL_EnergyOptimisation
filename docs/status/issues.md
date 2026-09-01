@@ -39,10 +39,11 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
 8. Stale wording: "49-dim" observation in two week-3 docs (correct = 29 slots); the
    `cmdp-spec.md` hour annotation says h ∈ {0–23} while the dataset/observations run
    1–24 (the frozen normalisation offset 1 / scale 23 is correct).
-9. `automation/check_week4.sh` / `check_week5.sh` fail by design until
-   `scripts/17_gate_week4.py` / `20_gate_week5.py` exist (they are phase deliverables).
-10. This repository path contains a space ("Semester 7") — agent-conductor missions need
-    a space-free symlink to run verification wrappers (see `automation/README.md`).
+9. The week-4/5 phase gates (`scripts/17_gate_week4.py`, `20_gate_week5.py`) do not
+   exist yet — they are phase deliverables.
+10. Resolved 2026-09-01: the agent-conductor wrapper layer (formerly `automation/`)
+    was removed; this repo is executed by hand, so the space in the path no longer
+    matters.
 11. Fresh-start notes: this repository began with the single migration commit
     (`3d4cbdb`, September 2026) made with a **placeholder git identity** — set your real
     `user.name`/`user.email` and amend if that matters to you. Weeks 1–3 artifacts copied

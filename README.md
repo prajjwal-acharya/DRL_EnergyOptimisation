@@ -110,7 +110,6 @@ scripts/     runnable commands, numbered 01–14 in execution order (weeks 4–5
 tests/       60 contract tests, incl. the B0-anchor 1e-9 regression
 results/     generated evidence — runs/, tables/, figures/ — git-ignored
 data/raw/    the pinned citylearn_challenge_2023_phase_1 dataset — read-only, git-ignored
-automation/  conductor wrappers and the week-4→5 chain script
 ```
 
 Folder-by-folder detail: [`docs/reference/folder-map.md`](docs/reference/folder-map.md).

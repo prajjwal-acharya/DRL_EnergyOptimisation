@@ -53,8 +53,10 @@ those scripts in the previous workspace and will reproduce.
 Execute `plans/week4-implementation-plan.md` top-to-bottom (phases A→D): forecasting
 package, frozen `configs/week4-forecasting.yaml`, 12-fold rolling-origin backtest,
 mechanical selection, `17_gate_week4.py` gate, `status/phase-reviews/week4-review.md`.
-Then Week 5 per its plan. If resuming via the agent-conductor, see `automation/README.md`
-(this repository path contains a space — a space-free symlink is required for missions).
+Then Week 5 per its plan. The agent-conductor automation layer was removed from this repository on
+1 September 2026 — weeks 4/5 are executed by hand, top-to-bottom, from their binding
+plans (each phase ends with its `gate_weekN` script). The historical mission records
+remain in the previous workspace.
 
 **Claim discipline:** nothing so far is a savings claim. B0/B1/B2 is single-seed heuristic
 evidence; week-3 PPO is three-seed evidence under one tariff profile; all of it will be

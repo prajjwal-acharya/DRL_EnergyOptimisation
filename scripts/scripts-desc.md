@@ -53,8 +53,8 @@ never in code.
 
 ## Conventions
 
-- **Verification wrappers** for the agent-conductor live in `automation/check_*.sh`
-  (they simply exec the gates from the repo root).
+- The agent-conductor wrapper layer was removed (2026-09-01); the gates are run
+  directly: `python scripts/<NN>_gate_weekN.py`.
 - **Research result?** `10/11`, `21/22/23/24` produce research evidence; everything
   else is infrastructure or verification (same convention as the README table).
 - Nothing under `results/` is ever hand-edited — regenerate from these scripts only.
