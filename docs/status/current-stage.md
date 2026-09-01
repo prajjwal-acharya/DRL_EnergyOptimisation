@@ -31,7 +31,7 @@ and resume procedure are in `status/phase-reviews/week4-5-status.md`.
 - [x] PPOController + frozen checkpoint-selection rule
 - [x] 3 PPO training runs (seeds 42/43/44, 200k steps each, ~5 min/seed CPU)
 - [x] 21-checkpoint evaluations per seed, final-window (0–719) evaluations, comparison tables
-- [x] 60 contract tests; phase gates for weeks 1–3
+- [x] 61 contract tests; phase gates for weeks 1–3
 - [ ] Forecasting package (`src/energy_optimisation/forecasting/` — reserved empty)
 - [ ] `ForecastProvider` + backtest + frozen selection (Week 4)
 - [ ] Observation variants plain/point/interval + RQ1 matched comparison (Week 5)
@@ -50,7 +50,11 @@ those scripts in the previous workspace and will reproduce.
 
 ## Next action
 
-Execute `plans/week4-implementation-plan.md` top-to-bottom (phases A→D): forecasting
+1. Finish the week-3 regeneration: train seeds 42/43/44 (`10_train_ppo.py`),
+   evaluate checkpoints (`11`), the final window (`12`), compare (`13`), and
+   pass `14_gate_week3.py` — after which every number in the repo has been
+   reproduced by hand.
+2. Then execute `plans/week4-implementation-plan.md` top-to-bottom (phases A→D): forecasting
 package, frozen `configs/week4-forecasting.yaml`, 12-fold rolling-origin backtest,
 mechanical selection, `17_gate_week4.py` gate, `status/phase-reviews/week4-review.md`.
 Then Week 5 per its plan. The agent-conductor automation layer was removed from this repository on

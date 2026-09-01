@@ -112,7 +112,9 @@ normalisation:
       scale: 7.222221374511719
 ppo:
   policy: MlpPolicy
-  policy_hidden_layers: [64, 64]
+  policy_hidden_layers:
+  - 64
+  - 64
   n_steps: 2048
   batch_size: 256
   n_epochs: 10

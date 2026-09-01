@@ -1,6 +1,6 @@
 # Research Log — Complete State of the Project
 
-> **Provenance note:** this log was maintained in the project's previous workspace (`/Volumes/code/Research Project`) and migrated here unchanged apart from path updates. References to `../.agent-conductor/` and `../conductor/` point to that previous location, and the repository layout sketched in §2.4 is that workspace's; the current layout is [`docs/reference/folder-map.md`](../reference/folder-map.md).
+> **Provenance note:** this log was maintained in the project's previous workspace (`/Volumes/code/Research Project`) and migrated here unchanged apart from path updates. The repository now lives at `~/Documents/Semester 7/DRL_EnergyOptimisation` (branch `main`, pushed to `github.com/prajjwal-acharya/DRL_EnergyOptimisation`). References to `../.agent-conductor/` and `../conductor/` point to that previous location, and the repository layout sketched in §2.4 is that workspace's; the current layout is [`docs/reference/folder-map.md`](../reference/folder-map.md).
 
 **Last updated:** 1 September 2026
 **Maintainer note:** this is the single narrative document that ties together *everything* done so far — setup, implementations, experimental observations, inferences, anomalies, and current status. Per-phase details live in the weekly review/plan docs (§10 index); this log is the layer above them and must be updated whenever a phase completes or blocks.
@@ -295,7 +295,7 @@ python scripts/standard_ppo/12_evaluate_final_window.py
 python scripts/standard_ppo/13_compare_ppo.py
 python scripts/standard_ppo/14_gate_week3.py
 
-python -m pytest -q    # 60 tests
+python -m pytest -q    # 61 tests (60 original + the CWD-independence regression)
 ```
 
 ---

@@ -5,13 +5,14 @@ The one design rule: **authored files are git-tracked; generated files are dispo
 `data/raw/` is pinned external input. Everything else can be deleted and rebuilt.
 
 ```text
-RL-Forecast-Energy/
+DRL_EnergyOptimisation/
 ├── README.md            entry point: identity, RQs, status, quickstart
-├── requirements.txt     pinned dependencies (CityLearn 2.5.0, SB3 2.3.2, torch 2.8.0, …)
-├── pytest.ini           test discovery (tests/)
+├── requirements.txt     pinned deps (CityLearn 2.5.0, SB3 2.3.2, torch 2.8.0, …; Python 3.9 only)
+├── pytest.ini           test discovery + documented third-party warning filters
+├── ruff.toml            lint config (py39; E402 exempted for the sys.path bootstrap)
 ├── .gitignore           keeps data/, results/, .venv/ out of git
 │
-├── docs/                all human knowledge — split by how often it changes
+├── docs/                all human knowledge (docs-desc.md = reading-order index)
 │   ├── README.md          this index's index (reading order)
 │   ├── plans/             INTEND: semester plan PDF, weekly briefs, binding phase specs
 │   ├── reference/         KNOW: folder map (this file), dataset, CMDP spec, protocol, literature
@@ -39,7 +40,7 @@ RL-Forecast-Energy/
 │   ├── standard_ppo/     09–14  Week 3 PPO: stats, train, eval, compare, gate
 │   └── forecasting/ · uncertainty_aware_ppo/   15–20  Weeks 4–5 (planned)
 │
-├── tests/               60 contract tests — see tests/test-desc.md (the B0-anchor
+├── tests/               61 contract tests — see tests/test-desc.md (the B0-anchor
 │                        1e-9 regressions live in test_runner.py and test_rl_env.py)
 │
 ├── data/

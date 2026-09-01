@@ -94,7 +94,7 @@ python scripts/standard_ppo/12_evaluate_final_window.py
 python scripts/standard_ppo/13_compare_ppo.py
 python scripts/standard_ppo/14_gate_week3.py            # Week 3 phase gate
 
-python -m pytest -q                          # 60 tests
+python -m pytest -q                          # 61 tests
 ```
 
 Generated evidence lands under `results/` (git-ignored; always regenerable from
@@ -108,7 +108,7 @@ src/         the library — environment, baselines, evaluation harness, RL adap
 configs/     frozen experiment definitions (schema, week2 baselines, week3 PPO)
 scripts/     runnable commands in phase subfolders (foundation/, cmdp_baselines/,
              standard_ppo/), numbered 01–14 in execution order; weeks 4–5 add 15–20
-tests/       60 contract tests, incl. the B0-anchor 1e-9 regression
+tests/       61 contract tests, incl. the B0-anchor 1e-9 regressions
 results/     generated evidence — runs/, tables/, figures/ — git-ignored
 data/raw/    the pinned citylearn_challenge_2023_phase_1 dataset — read-only, git-ignored
 ```

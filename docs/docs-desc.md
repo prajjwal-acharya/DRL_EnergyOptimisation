@@ -26,6 +26,7 @@ Reading order for a newcomer — each layer assumes the previous one.
 - **Update discipline:** `status/` changes every phase; `reference/` only when understanding
   changes; `plans/` are frozen once the phase starts.
 - **Migration note:** this repository is a polished restructure of the original workspace
-  (`/Volumes/code/Research Project`). Weeks 1–3 evidence was produced there and copied here
-  with paths updated; see the provenance notes in `status/research-log.md` and
-  `status/phase-reviews/week4-5-status.md`.
+  (`/Volumes/code/Research Project`); see the provenance notes in `status/research-log.md`
+  and `status/phase-reviews/week4-5-status.md`. The copied weeks 1–3 evidence was later
+  cleared for a from-scratch regeneration **by hand in this repo** — weeks 1–2 are done
+  (gates green, anchors reproduced at max |delta| = 0); the week-3 PPO layer is pending.
