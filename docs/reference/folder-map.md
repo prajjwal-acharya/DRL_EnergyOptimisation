@@ -39,7 +39,8 @@ RL-Forecast-Energy/
 │   ├── 09–14  Week 3 PPO: norm stats, train, eval checkpoints, eval final, compare, gate
 │   └── 15–20  Weeks 4–5 (planned): forecasting + uncertainty-aware PPO
 │
-├── tests/               60 contract tests (B0-anchor 1e-9 regression lives in test_rl_env.py)
+├── tests/               60 contract tests — see tests/test-desc.md (the B0-anchor
+│                        1e-9 regressions live in test_runner.py and test_rl_env.py)
 │
 ├── data/
 │   ├── README.md          provenance and rules for this folder

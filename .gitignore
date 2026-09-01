@@ -8,5 +8,6 @@ data/raw/
 data/processed/
 data/analysis
 results/
+to-do.md
 
 *.pyc
