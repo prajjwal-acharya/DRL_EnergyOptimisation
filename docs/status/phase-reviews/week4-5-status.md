@@ -1,5 +1,9 @@
 # Week 4/5 Status — Blocked Before Any Work Started
 
+> **Superseded current-state note (2 September 2026):** this is a historical incident
+> record. Week 4 was subsequently implemented and verified directly in the migrated
+> repository; see [`week4-review.md`](week4-review.md). Week 5 remains unstarted.
+
 > **Provenance note:** this record describes events in the project's previous workspace (`/Volumes/code/Research Project`). Paths under `../.agent-conductor/` and `../conductor/` refer to that location and are preserved verbatim for the record.
 
 **Recorded:** 1 September 2026 (events of 26–27 August 2026)

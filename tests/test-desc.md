@@ -1,6 +1,6 @@
 # Test Guide — What Each Test File Guarantees
 
-55 test functions → 61 collected pytest items. Run: `python -m pytest -q`.
+66 test functions → 72 collected pytest items. Run: `python -m pytest -q`.
 These are **contract tests**: they pin the project's invariants so that neither
 code drift nor accidental edits can silently change what a number means.
 Four of them read generated evidence under `results/` (noted below) — they pass
@@ -15,6 +15,7 @@ once the pipeline in `results/results-desc.md` has been re-run.
 | `test_runner.py` | 6 | The locked harness: a run writes the complete 5-file artifact set with correct metadata (relative schema path, 40-char git commit, step count); identical seeds reproduce KPIs; traces are NaN-free; **B0 through the harness reproduces all six smoke anchors at 1e-9**; invalid windows are rejected; config snapshots land in metadata. *(Two tests read the smoke/B0 evidence under `results/`.)* |
 | `test_rl_env.py` | 9 | The Gymnasium adapter: observation/action space shapes and finiteness; deterministic reset per seed; episode length equals the window; **the neutral RL action `[-1,-1,-1]` reproduces the B0 smoke anchors at 1e-9** (the week-3↔week-2 bridge); the `[a0, a1, (a2+1)/2]` action mapping bounds; the reward equals the frozen CMDP formula on hand-computed triples (+ division-guard); pre-clip violations are counted; window overrides/invalid windows; normalisation spot-checks against the frozen `(offset, scale)` pairs. |
 | `test_ppo_controller.py` | 12 | The PPO wrapper and selection rule: `act` is deterministic and equals the mapped policy output; the frozen affine action mapping; normalisation matches the frozen transform (float32, [0,1], identity SoCs) and saturates outside frozen ranges; observation-dimension mismatch raises; reset is stateless; reward-constant extraction; `episode_return_from_trace` hand-computed; the frozen selection rule (lowest cost → discomfort tie-break → deterministic on full tie → missing columns raise). |
+| `test_forecasting.py` | 11 | Week-4 contracts: source alignment, no-lookahead mutation proof, exact folds, hand-computed metrics, monotone quantiles, persistence/climatology definitions, deterministic linear/GRU fits, conformal widening, provider causality, and 9/36-value Week-5 feature blocks. |
 
 ## The two anchors worth knowing
 
@@ -34,5 +35,5 @@ once the pipeline in `results/results-desc.md` has been re-run.
 - Tests self-manage `sys.path` (`PROJECT_ROOT/src`); no package install needed.
 - No test trains anything, touches `configs/`, or writes into `results/`
   (runs are executed into temp directories).
-- Phase gates (`scripts/05/08/14_gate_week*.py`) run this suite *plus*
+- Phase gates (`scripts/**/05/08/14/17_gate_week*.py`) run this suite *plus*
   artifact-level checks — tests verify code, gates verify evidence.

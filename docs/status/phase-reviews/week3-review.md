@@ -13,7 +13,7 @@ was modified (enforced byte-level by `scripts/standard_ppo/14_gate_week3.py`).
 ### Phase A — Gymnasium adapter
 
 - `src/energy_optimisation/rl/env_adapter.py` exposes `CityLearnRLEnv(gymnasium.Env)`:
-  49-dim normalised central-agent observation (per-feature `(offset, scale)` pairs frozen
+  29-dim normalised central-agent observation (per-feature `(offset, scale)` pairs frozen
   in `configs/week3-ppo.yaml`, computed once by `scripts/standard_ppo/09_compute_normalization_stats.py`
   from the B0 dev trace + schema static ranges), `Box(low=[-1,-1,-1], high=[1,1,1])`
   action space mapped to CityLearn as `dhw_storage = a0`, `electrical_storage = a1`,
@@ -104,7 +104,7 @@ figure: `results/figures/ppo_vs_baselines_cost.png`):
    to ~36–48% on dev. The policy "buys" that comfort with ~60–70% more net consumption
    than B0, which the cost KPI records as a regression.
 4. **Grid-limit discipline got worse, not better.** Grid-limit exceedances on dev:
-   PPO 30/17/24 (seeds 42/43/44) vs B0's 9; on final: 123/102/82 vs B0's 38. An
+   PPO 30/17/24 (seeds 42/43/44) vs B0's 9; on final: 123/82/102 vs B0's 38. An
    unconstrained PPO trained on the frozen reward does not respect the 95th-percentile
    import limit — direct motivation for the planned safety shield.
 5. **Checkpoint selection lands early.** The cost-optimal checkpoints sit at 20k–100k of

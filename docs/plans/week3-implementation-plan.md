@@ -12,7 +12,7 @@ no `match` statements; use `typing.Optional`/`Tuple` or `from __future__ import 
 Week 2 (CMDP spec, evaluation harness, B0/B1/B2 baselines) is complete and frozen. This
 phase adds the standard PPO controller: **no forecast-derived features, no uncertainty
 representation, no safety shield** — those are October work. Standard PPO consumes the
-plain 49-dim CityLearn observation and learns from the frozen CMDP reward only.
+plain 29-dim CityLearn observation and learns from the frozen CMDP reward only.
 
 ---
 
@@ -124,7 +124,7 @@ exposing `CityLearnRLEnv(gymnasium.Env)`:
 
 - Constructor takes the schema path, window overrides, and a config dict (from
   `configs/week3-ppo.yaml`). Internally uses `environment.load_environment`.
-- **Observation space**: `Box` matching the 49-dim central-agent observation, normalised.
+- **Observation space**: `Box` matching the 29-dim central-agent observation, normalised.
   Normalisation constants are per-feature `(offset, scale)` pairs frozen in
   `configs/week3-ppo.yaml` and computed once by `scripts/standard_ppo/09_compute_normalization_stats.py`
   from the existing B0 dev trace `results/runs/baselines/b0_neutral/dev/trace.csv` and the

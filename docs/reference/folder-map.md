@@ -25,7 +25,8 @@ DRL_EnergyOptimisation/
 │   ├── evaluation/               runner.py (locked harness), metrics.py, artifacts.py
 │   ├── rl/                       env_adapter.py (Gymnasium + reward + normalisation),
 │   │                             controller.py (PPOController), checkpoint_selection.py
-│   ├── forecasting/            EMPTY — Week 4 target
+│   ├── forecasting/            Week 4: causal data, metrics, five-rung models,
+│   │                           pipeline, serialization, and ForecastProvider
 │   └── safety/                 EMPTY — Week 6+ shield target
 │
 ├── configs/             frozen experiment definitions ("logic-as-data")
@@ -38,9 +39,10 @@ DRL_EnergyOptimisation/
 │   ├── foundation/      01–05  fetch dataset, derive schema, inspect, smoke, gate
 │   ├── cmdp_baselines/   06–08  Week 2: run, compare, gate
 │   ├── standard_ppo/     09–14  Week 3 PPO: stats, train, eval, compare, gate
-│   └── forecasting/ · uncertainty_aware_ppo/   15–20  Weeks 4–5 (planned)
+│   ├── forecasting/      15–17  Week 4 backtest, selection, gate
+│   └── uncertainty_aware_ppo/   18–20  Week 5 (planned)
 │
-├── tests/               61 contract tests — see tests/test-desc.md (the B0-anchor
+├── tests/               72 contract tests — see tests/test-desc.md (B0-anchor
 │                        1e-9 regressions live in test_runner.py and test_rl_env.py)
 │
 ├── data/

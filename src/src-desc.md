@@ -13,11 +13,16 @@ Reusable logic only. Runnable commands live in `scripts/`, decisions/constants i
 | `rl/env_adapter.py` | 422 | **The Gymnasium bridge**: normalisation, action mapping, frozen CMDP reward, truncation contract. |
 | `rl/controller.py` | 205 | `PPOController` — SB3 model on the Controller ABC + exact training-return replay from traces. |
 | `rl/checkpoint_selection.py` | 52 | The frozen selection rule: lowest dev cost, tie-break lower discomfort. |
-| `forecasting/` | empty | Week 4 target: forecasters + `ForecastProvider`. |
+| `forecasting/data.py` | 300 | Aligned CSV loader, frozen folds, causal 22-value static and 24×5 sequence features. |
+| `forecasting/metrics.py` | 90 | NaN-strict MAE/RMSE, pinball, coverage, width, Winkler, and monotonicity repair. |
+| `forecasting/models.py` | 520 | Persistence/climatology/linear/GRU ladder, conformal wrapper, deterministic serialization. |
+| `forecasting/pipeline.py` | 560 | Rolling-origin backtest, scoring, frozen selection, full-series refit, tables and figures. |
+| `forecasting/api.py` | 90 | `ForecastProvider` — selected-model loading and Week-5 point/interval feature blocks. |
 | `safety/` | empty | Week 6+ target: the safety shield wrapping actions before clip. |
 
 ```text
 configs ─▶ controllers/rl-controller ─▶ runner.run_episode ─▶ metrics + artifacts
+       └▶ forecasting pipeline ─▶ ForecastProvider ─▶ Week-5 feature blocks
                  (Controller ABC)          (name-addressed, causal)
 ```
 

@@ -82,9 +82,12 @@ strings to 29 in this phase's commit (text-only change; no code or config change
 - For each fold, every model is **refit from scratch** on all steps `< fold start`
   (expanding window), then produces quantile forecasts at every origin `t` inside the
   fold for every horizon h ∈ {1, 2, 3}.
-- Out-of-sample totals: 480 origins × 3 horizons = 1440 evaluated `(t, h)` pairs per
-  target per model. Pooled metrics are computed over these; per-fold metrics are saved
-  but not decision-driving.
+- Out-of-sample origins: 480. Because the dataset ends at row 719, only horizons whose
+  labels exist are scored at the final three origins: h=1 has 479 labels, h=2 has 478,
+  and h=3 has 477, for **1434 evaluated `(t, h)` pairs per target per model**. This is
+  the 2 September 2026 boundary correction to the original impossible 1440-pair wording;
+  no truth beyond row 719 is fabricated. Pooled metrics are computed over these;
+  per-fold metrics are saved but not decision-driving.
 - The dev window (0–167) lies inside every training segment by construction. Therefore
   **no dev-window forecast-accuracy claim is made** — the dev window's role is control
   evaluation. This sentence must appear verbatim in `docs/status/phase-reviews/week4-review.md`.
@@ -225,6 +228,12 @@ Week-5 appended-feature blocks (defined in `docs/plans/week5-implementation-plan
 Structural causality: the provider internally truncates the dataset to rows ≤ t before
 any model sees it.
 
+Cold-start clarification (2 September 2026): the 24-hour history does not exist at
+control steps 0–23. `ForecastProvider` must return current-value persistence for every
+target/horizon/quantile during those steps, then use the selected model from step 24.
+This causal fallback is preferable to inventing pre-dataset history and keeps the Week-5
+feature matrix defined from step 0.
+
 ### B3. Tests (append to `tests/test_forecasting.py`)
 
 - `test_persistence_definitions` — constructed 48-step series, exact expected outputs.
@@ -296,8 +305,8 @@ run note, not hidden.
 - `configs/week4-forecasting.yaml` exists and its SHA-256 matches the hash recorded in
   `results/runs/forecasting/backtest_run_metadata.json`.
 - All three targets have a `selected_models.json` entry with a complete rule trace.
-- `predictions.csv` exists for every model × target; row counts match §0.4 arithmetic
-  (480 origins × 3 horizons).
+- `predictions.csv` exists for every model × target; row counts match corrected §0.4
+  arithmetic (1434 valid labelled pairs: 479 + 478 + 477 by horizon).
 - `forecast_model_comparison.csv` and `forecast_calibration_by_hour.csv` exist with the
   expected schema; no NaNs.
 - The three required figures exist.

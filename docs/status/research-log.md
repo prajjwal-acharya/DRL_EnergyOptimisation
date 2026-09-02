@@ -5,7 +5,7 @@
 **Last updated:** 1 September 2026
 **Maintainer note:** this is the single narrative document that ties together *everything* done so far — setup, implementations, experimental observations, inferences, anomalies, and current status. Per-phase details live in the weekly review/plan docs (§10 index); this log is the layer above them and must be updated whenever a phase completes or blocks.
 
-**One-paragraph summary.** This is a CP-I capstone project building a risk-aware deep-RL controller for building energy optimisation in CityLearn. Weeks 1–3 are complete, verified, and committed: environment foundation, CMDP specification, a locked evaluation harness, three deterministic baselines (B0/B1/B2), and a standard PPO controller trained across three seeds. The headline empirical result so far is honest and negative-leaning: PPO halves discomfort versus every baseline but does **not** beat the do-nothing controller on cost, and no controller respects the data-derived grid-import limit. Weeks 4 (probabilistic forecasting) and 5 (uncertainty-aware PPO for RQ1) are fully specified in binding plans but **never executed** — the autonomous worker mission for week 4 blocked on an external model-API failure before writing a single file, and week 5 was chained behind it and never started. Resume instructions are in [`docs/status/phase-reviews/week4-5-status.md`](week4-5-status.md).
+**One-paragraph summary.** This CP-I capstone builds a risk-aware deep-RL controller for building energy optimisation in CityLearn. Weeks 1–4 are complete and verified: environment foundation, CMDP and locked evaluation, B0/B1/B2, three-seed standard PPO, and a causal probabilistic forecasting ladder. Results remain deliberately mixed: PPO halves discomfort but does not beat do-nothing cost; Week 4 selects calibrated linear quantile regression only for non-shiftable load, while solar and cooling fall back to persistence under the frozen rule. Week 5 (point-vs-interval PPO for RQ1) is next. The failed August automation attempt is historical provenance in [`docs/status/phase-reviews/week4-5-status.md`](phase-reviews/week4-5-status.md); the completed forecast phase is in [`week4-review.md`](phase-reviews/week4-review.md).
 
 ---
 
@@ -31,7 +31,7 @@
 | Month | Planned | Actual status |
 | --- | --- | --- |
 | August | Literature review, CMDP formulation, CityLearn setup, rule-based + tariff-aware baselines | ✅ Done (Weeks 1–2, plus Week 3 PPO pulled forward — completed 25–26 Aug) |
-| September | Time-series features, load/PV forecasting model, standard PPO, measurement protocol | ⚠️ PPO done; **forecasting not started** (Week 4 mission blocked — infra failure, see §8) |
+| September | Time-series features, load/PV forecasting model, standard PPO, measurement protocol | ✅ standard PPO + Week-4 forecasting complete; Week 5 RQ1 next |
 | October | Uncertainty in controller state, safety shield, forecast-noise/tariff/peak experiments | Planned (Week 5 spec written for the uncertainty part; shield = Week 6+) |
 | November | Robustness testing, aggregation, report/manuscript, dashboard | Planned |
 
@@ -97,7 +97,7 @@ code/
 │   ├── baselines/          Controller ABC + B0/B1/B2
 │   ├── evaluation/         runner (locked harness), metrics, artifacts
 │   ├── rl/                 env_adapter (Gymnasium), PPOController, checkpoint_selection
-│   ├── forecasting/        EMPTY (.gitkeep) — Week 4 target
+│   ├── forecasting/        causal data + metrics + models + pipeline + provider
 │   └── safety/             EMPTY (.gitkeep) — Week 6+ target
 ├── tests/                  7 files, 60 passing tests
 ├── results/                git-ignored generated evidence (see §5)
@@ -108,7 +108,7 @@ Outside `code/`: `Plans/week1.md`, `Plans/week2.md` (the original weekly briefs)
 
 ### 2.5 Automation setup (agent-conductor)
 
-Each implementation week is executed by an autonomous "conductor" mission driven by the binding plan doc. Missions live in `../.agent-conductor/missions/`: week 2 (`…-5cfebe`, completed), week 3 (`…-28a0fd`, completed), week 4 (`…-4050fc`, **blocked**), week 5 (`…-e45c06`, **created, never started**). A chain script `../conductor/chain_week4_then_week5.sh` was meant to run week 4, gate on `check_week4.sh`, then run week 5 — it aborted when week 4 blocked (details in `docs/status/phase-reviews/week4-5-status.md`). Verification wrappers `automation/check_week{2..5}.sh` exist so the conductor can run the phase gates; `check_week4.sh` / `check_week5.sh` currently fail because `17_gate_week4.py` / `20_gate_week5.py` do not exist yet (they are Week 4/5 deliverables).
+Historical automation note: conductor missions completed Weeks 2–3, while the August Week-4 mission blocked before writing files and never started Week 5. The wrapper layer was removed during migration. Week 4 was implemented directly in this repository on 2 September and is verified by `scripts/forecasting/17_gate_week4.py`; `20_gate_week5.py` remains a Week-5 deliverable. The original timeline is preserved in `docs/status/phase-reviews/week4-5-status.md`.
 
 ---
 
@@ -165,14 +165,19 @@ Repo scaffold, pinned venv, local CityLearn bootstrap avoiding GitHub API rate l
 
 ### 4.4 Test suite
 
-60 tests passing (`./.venv/bin/python -m pytest -q`): environment (2), observation names (5), controllers (20 items incl. real-env dev-window runs), metrics (6), runner/artifacts (6), RL env adapter (9, incl. the B0-anchor regression), PPO controller + selection rule (12). `.pytest_cache` holds a stale 62-test snapshot from an earlier revision — harmless.
+72 tests passing (`./.venv/bin/python -m pytest -q`): 61 frozen Week 1–3 contracts plus 11 forecasting contracts covering source alignment, causality mutation, folds, metrics, deterministic learned fits, monotonicity, conformal widening, and provider feature blocks.
 
-### 4.5 What does NOT exist yet (as of 1 Sep 2026)
+### 4.5 Week 4 — probabilistic forecasting (complete, reviewed in `docs/status/phase-reviews/week4-review.md`)
 
-- **Week 4 forecasting** — `src/energy_optimisation/forecasting/` is an empty package (`.gitkeep` only); no `configs/`, no `results/runs/forecasting/`, no forecast tables/figures, no `17_gate_week4.py`. Fully specified in `docs/plans/week4-implementation-plan.md`.
+- `forecasting/data.py` owns aligned CSV loading, the 12-fold scheme, and the only causal feature builders (22 static features; 24×5 GRU history).
+- `forecasting/models.py` implements two persistence floors, hourly climatology, multi-head linear quantile, GRU quantile, and split-conformal interval widening; all fits are seed-42 CPU deterministic.
+- `forecasting/pipeline.py` writes predictions/metrics, mechanically applies the frozen bars, refits selections, and builds tables/figures. `api.py` exposes the 9-value point and 36-value interval blocks required by Week 5.
+- The original 1,440-pair plan arithmetic was impossible at the dataset boundary; the corrected evidence has 1,434 valid pairs per model/target (479/478/477 at horizons 1/2/3) and never invents labels beyond row 719.
+
+### 4.6 What does NOT exist yet (as of 2 Sep 2026)
+
 - **Week 5 uncertainty-aware PPO** — no `results/runs/ppo_week5/`, no `configs/ppo/week5_{point,interval}.yaml`, no `19_compare_rq1.py`/`rq1_verdict.json`. Fully specified in `docs/plans/week5-implementation-plan.md`.
 - **Safety shield** (`src/energy_optimisation/safety/` empty — Week 6+), scenario/robustness work, dashboard, manuscript.
-- A repo-wide grep for forecast/shield/uncertainty/quantile/conformal in `src/`+`scripts/` matches only incidental docstrings and the guard that *bans* forecast tokens in baseline code.
 
 ---
 
@@ -221,6 +226,22 @@ All three record `beats_b0_cost: false`. The cost-optimal checkpoints are early 
 
 Multi-seed dev means (min–max): cost 0.7438 (0.7263–0.7526), consumption 0.7544, discomfort 0.4303 (0.3576–0.4848), peak 0.9252, ramping 1.0224. Final-window derived: grid-limit exceedances 123/82/102 (seeds 42/43/44) vs B0's 38; reserve events 485/88/416; electrical SoC stays within 0.186–0.200 in *all* PPO runs (the policy barely uses the battery); DHW SoC pinned at 0; solar self-consumption 0.84–0.87.
 
+### 5.6 Probabilistic forecasting (Week 4)
+
+The five-rung ladder plus two conformal variants ran over 12 expanding folds. Selection
+uses daylight-only evidence for raw-scale solar and pooled evidence for demand.
+
+| Target | Selection | MAE | Mean pinball | Coverage 90% / 50% |
+| --- | --- | ---: | ---: | ---: |
+| solar generation | persistence 24 h | 44.1302 | 22.0651 | 0.1241 / 0.1241 |
+| non-shiftable load | linear quantile | 0.2392 | 0.0993 | 0.8849 / 0.4812 |
+| cooling demand | persistence last | 1.2230 | 0.6115 | 0 / 0 |
+
+Only non-shiftable load has a calibrated learned selection. Solar learned variants were
+not competitive; cooling learned variants improved point MAE but failed interval coverage.
+The pre-registered fallback therefore ships persistence for those targets, with degenerate
+intervals. This negative finding is frozen for Week 5 rather than tuned away.
+
 ---
 
 ## 6. Findings and inferences
@@ -236,6 +257,10 @@ Recorded honestly per the project's no-post-hoc-tuning discipline — hyperparam
 7. **Tariff-awareness helps where it can act** (B2 > B1 on cost, consumption, ramping, and discomfort on both windows) — supports the RQ3 contrast price-adaptive vs calendar-only even though neither beats B0.
 8. **Checkpoint selection on cost alone is fragile** — it picks early, low-return policies (20k–100k of 200k) and behaves differently per seed. Seed 44 shows the largest behavioural spread (much lower discomfort at similar cost). Multi-seed variance is now quantified and small on cost (±0.013) but material on behaviour.
 9. **Methodological inference:** byte-frozen configs, anchor regressions at 1e-9, independent re-execution of selection rules in the phase gates, and "never touch prior outputs" byte-identity checks have kept three weeks of autonomous execution fully reproducible — this discipline is the reason the negative results above are trustworthy.
+10. **Forecast uncertainty is target-specific.** Linear quantile regression earns inclusion for load, but
+    the same ladder does not yield selectable calibrated intervals for solar/cooling.
+    Week 5 must therefore test the provided information honestly and report degenerate
+    width features, rather than assuming probabilistic models are uniformly useful.
 
 ---
 
@@ -245,25 +270,28 @@ Verified against primary artifacts; none invalidate results, all worth knowing:
 
 1. **Seed-recording inconsistency (week 3):** `run_metadata.json` for seeds 43/44 has top-level `seed: 43/44` correct, but the embedded `config_ppo_block.seed` reads 42 for all runs (the YAML hardcodes 42; the run seed was a CLI override). Cosmetic provenance wart.
 2. **Two comfort definitions coexist.** Derived `comfort_violation_hours` counts the *hot* band only (matches the CMDP constraint); CityLearn's `discomfort_proportion` counts hot + cold. B1/B2 therefore show 0 derived violation hours while CityLearn reports ~97% (cold) discomfort. Both are correct under their own definitions; always state which one a number comes from.
-3. **Erratum in `docs/status/phase-reviews/week3-review.md`:** final-window grid exceedances are written "123/102/82 (seeds 42/43/44)"; the artifacts say **123/82/102** (seeds 43/44 transposed). To be corrected alongside the Week-4 doc fixes (the week-4 plan already schedules two other text corrections in week-3 docs).
+3. **Resolved Week-3 errata:** the review now reports 29 observations and final-window
+   grid exceedances 123/82/102 for seeds 42/43/44.
 4. **Legacy artifacts:** `results/runs/baselines/b0_zero_actions/0-167/` (pre-naming-lock harness-regression run, no derived metrics) and the `results/figures/0-167_*` set (pre-`dev_*` prefix) are superseded but retained untouched. `results/logs/` is empty.
 5. **`train_stdout.log` exists only for seed 42** (seeds 43/44 have no stdout log).
-6. **Stale references:** "49-dim" wording in two week-3 docs (correct = 29); `.pytest_cache` lists 62 tests vs the current 60.
-7. **`check_week4.sh` / `check_week5.sh` fail by design** until `17_gate_week4.py` / `20_gate_week5.py` exist (they are phase deliverables).
+6. **Boundary correction:** the Week-4 plan's original 1,440-pair statement required
+   unavailable labels beyond row 719; corrected plan/code/gate total is 1,434.
+7. **Week-5 gate does not exist yet**; it remains a Week-5 phase deliverable.
 8. **Stale `.pause.request` files** exist in the week-2/4/5 mission dirs (leftovers from the documented daemon-stop procedure; harmless but should be cleared before restarting those missions — see `docs/status/phase-reviews/week4-5-status.md`).
 
 ---
 
 ## 8. Current status and what happens next
 
-**Status as of 1 Sep 2026:** Weeks 1–3 complete, verified, committed (HEAD `0d6de3a`, clean tree). Week 4 (forecasting) and Week 5 (RQ1 comparison) are fully specified but **not started** — the week-4 autonomous mission blocked on 26 Aug 2026 at its very first worker dispatch because its model route (`stealth/ox-alpha`) was retired by the provider (HTTP 404), exhausting the per-task retry cap before any file was written. The week-4→5 chain script correctly refused to start week 5. Zero research work was lost; the repo is exactly at its week-3 state. Full timeline, evidence, and the exact resume procedure: [`docs/status/phase-reviews/week4-5-status.md`](week4-5-status.md).
+**Status as of 2 Sep 2026:** Weeks 1–4 are complete and verified. The earlier Week-4
+automation block was bypassed by a direct, plan-driven implementation in this repository;
+its historical record remains in `phase-reviews/week4-5-status.md`. Week 5 has not started.
 
 **Execution order from here:**
 
-1. Resume/re-run Week 4 per `docs/plans/week4-implementation-plan.md` (forecasting package, 12-fold rolling-origin backtest, frozen selection) → `docs/status/phase-reviews/week4-review.md`.
-2. Week 5 per `docs/plans/week5-implementation-plan.md` (matched-pair point-vs-interval PPO, pre-registered RQ1 verdict rule) → `docs/status/phase-reviews/week5-review.md`.
-3. October: safety shield + forecast-noise/tariff/solar scenarios (RQ2/RQ3).
-4. November: robustness aggregation, dashboard, manuscript.
+1. Week 5 per `docs/plans/week5-implementation-plan.md` (matched-pair point-vs-interval PPO, pre-registered RQ1 verdict rule) → `docs/status/phase-reviews/week5-review.md`.
+2. October: safety shield + forecast-noise/tariff/solar scenarios (RQ2/RQ3).
+3. November: robustness aggregation, dashboard, manuscript.
 
 **Claim discipline reminder:** nothing so far is a savings claim. B0/B1/B2 is single-seed heuristic evidence; week-3 PPO is three-seed evidence under one tariff profile; all of it is superseded by the planned multi-seed, multi-scenario evaluation.
 
@@ -295,7 +323,12 @@ python scripts/standard_ppo/12_evaluate_final_window.py
 python scripts/standard_ppo/13_compare_ppo.py
 python scripts/standard_ppo/14_gate_week3.py
 
-python -m pytest -q    # 61 tests (60 original + the CWD-independence regression)
+# Forecasting (week 4) — about 5 minutes CPU
+python scripts/forecasting/15_train_forecasters.py --config configs/week4-forecasting.yaml
+python scripts/forecasting/16_compare_forecasters.py --config configs/week4-forecasting.yaml
+python scripts/forecasting/17_gate_week4.py
+
+python -m pytest -q    # 72 tests
 ```
 
 ---
@@ -307,12 +340,13 @@ python -m pytest -q    # 61 tests (60 original + the CWD-independence regression
 | `README.md` | Project overview, RQs, scope, quick start, evaluation contract (entry point) |
 | **`docs/status/research-log.md`** | **This document — the complete state of the project** |
 | `docs/status/phase-reviews/week4-5-status.md` | Week 4/5 blocked-mission record and resume procedure |
+| `docs/status/phase-reviews/week4-review.md` | Completed forecasting evidence, selection, and limitations |
 | `docs/reference/cmdp-spec.md` | Formal CMDP: state/actions/transition/reward/constraints/KPIs + frozen constants |
 | `docs/reference/environment-selection.md` | Environment selection rationale (why 2023 phase 1, why not 2020) |
 | `docs/reference/experiment-protocol.md` | Evolving experiment recording protocol |
 | `docs/reference/literature.md` + `literature-matrix.csv` | 12 screened sources, 6 analysed, gaps mapped to RQs |
 | `docs/status/phase-reviews/week1-review.md` / `week2-review.md` / `week3-review.md` | Phase completion records with all numbers |
-| `docs/week2/3/4/5-implementation-plan.md` | Binding per-phase specs (4 and 5 await execution) |
+| `docs/plans/week2/3/4/5-implementation-plan.md` | Binding per-phase specs (Week 5 awaits execution) |
 | `docs/status/phase-reviews/week1-progress-against-research-plan.md` | Week-1 mapping onto the approved plan |
 | `../Plans/week1.md`, `../Plans/week2.md` | Original weekly briefs |
 | `../123CS0143_PrajjwalAcharya_ResearchPlan.pdf` | Approved semester research plan |

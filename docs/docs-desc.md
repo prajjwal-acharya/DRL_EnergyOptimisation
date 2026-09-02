@@ -9,6 +9,7 @@ Reading order for a newcomer — each layer assumes the previous one.
    3. [`status/issues.md`](status/issues.md) — blockers, anomalies, errata, tech debt.
    4. [`status/research-log.md`](status/research-log.md) — the complete cross-phase narrative (the deep record).
    5. [`status/phase-reviews/`](status/phase-reviews/) — frozen per-week completion records.
+      Week 4 forecasting is recorded in [`week4-review.md`](status/phase-reviews/week4-review.md).
 3. **Reference (how things work — stable, changes rarely):**
    1. [`reference/folder-map.md`](reference/folder-map.md) — what lives where in this repo, and why.
    2. [`reference/dataset.md`](reference/dataset.md) — the CityLearn dataset: files, columns, quirks.

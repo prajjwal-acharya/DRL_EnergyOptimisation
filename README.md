@@ -5,10 +5,10 @@
 
 **Research period:** August – November 2026 · **CityLearn 2.5.0** · Python 3.9 · CPU only
 
-**Current status:** Weeks 1–3 complete and verified — environment foundation, CMDP
-specification, locked evaluation harness, B0/B1/B2 deterministic baselines, and a standard
-PPO controller trained across seeds 42/43/44. Weeks 4 (probabilistic forecasting) and
-5 (uncertainty-aware PPO) are fully specified in binding plans and awaiting execution.
+**Current status:** Weeks 1–4 complete and verified — the foundation, CMDP/baselines,
+standard PPO, and the frozen probabilistic forecasting ladder are implemented. Week 4
+selected linear quantile regression for non-shiftable load and persistence fallbacks for solar/cooling; Week 5
+(uncertainty-aware PPO) is the next phase.
 
 **No performance or real-world savings claim has been made.** All results so far are
 simulation evidence under one tariff profile.
@@ -58,8 +58,8 @@ simulation input, not a model of a specific state tariff.
 - [x] Locked evaluation harness — controller interface, runner, artifacts, metrics — validated by a B0 regression against the smoke anchors at 1e-9.
 - [x] Deterministic baselines B0 (neutral), B1 (fixed schedule), B2 (tariff-aware), evaluated on the locked dev (0–167) and final (0–719) windows.
 - [x] Standard PPO (seeds 42/43/44, frozen `configs/week3-ppo.yaml`), checkpoint evaluation through the locked harness, frozen selection rule, final-window evaluations.
-- [x] Phase gates `05/08/14_gate_week*.py` — artifacts, regressions, config hashes, byte-identity of prior evidence.
-- [ ] Week 4 — probabilistic forecasting module ([`docs/plans/week4-implementation-plan.md`](docs/plans/week4-implementation-plan.md)).
+- [x] Phase gates `05/08/14/17_gate_week*.py` — artifacts, regressions, config hashes, byte-identity of prior evidence.
+- [x] Week 4 probabilistic forecasting — causal 22-feature/24-step pipelines, five-rung ladder, rolling-origin backtest, calibration metrics, frozen selection, and `ForecastProvider` ([review](docs/status/phase-reviews/week4-review.md)).
 - [ ] Week 5 — uncertainty-aware PPO matched comparison, RQ1 verdict ([`docs/plans/week5-implementation-plan.md`](docs/plans/week5-implementation-plan.md)).
 - [ ] Safety shield, ablations, robustness matrix (October). Dashboard and manuscript (November).
 
@@ -94,7 +94,12 @@ python scripts/standard_ppo/12_evaluate_final_window.py
 python scripts/standard_ppo/13_compare_ppo.py
 python scripts/standard_ppo/14_gate_week3.py            # Week 3 phase gate
 
-python -m pytest -q                          # 61 tests
+# Probabilistic forecasting (Week 4) — ~5 min CPU on this dataset
+python scripts/forecasting/15_train_forecasters.py --config configs/week4-forecasting.yaml
+python scripts/forecasting/16_compare_forecasters.py --config configs/week4-forecasting.yaml
+python scripts/forecasting/17_gate_week4.py
+
+python -m pytest -q                          # 72 tests
 ```
 
 Generated evidence lands under `results/` (git-ignored; always regenerable from
@@ -104,11 +109,11 @@ Generated evidence lands under `results/` (git-ignored; always regenerable from
 
 ```text
 docs/        plans/ (what we intend), reference/ (how things work), status/ (where we are)
-src/         the library — environment, baselines, evaluation harness, RL adapter
-configs/     frozen experiment definitions (schema, week2 baselines, week3 PPO)
+src/         the library — environment, baselines, evaluation, RL, forecasting
+configs/     frozen experiment definitions (schema, baselines, PPO, forecasting)
 scripts/     runnable commands in phase subfolders (foundation/, cmdp_baselines/,
-             standard_ppo/), numbered 01–14 in execution order; weeks 4–5 add 15–20
-tests/       61 contract tests, incl. the B0-anchor 1e-9 regressions
+             standard_ppo/, forecasting/), numbered 01–17; Week 5 adds 18–20
+tests/       72 contract tests, incl. B0 anchors and forecast-causality regressions
 results/     generated evidence — runs/, tables/, figures/ — git-ignored
 data/raw/    the pinned citylearn_challenge_2023_phase_1 dataset — read-only, git-ignored
 ```

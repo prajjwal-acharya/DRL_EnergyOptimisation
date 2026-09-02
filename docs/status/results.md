@@ -1,6 +1,6 @@
 # Results and Findings
 
-**Last updated:** 1 September 2026. All KPIs CityLearn-normalised (lower = better;
+**Last updated:** 2 September 2026. Controller KPIs are CityLearn-normalised (lower = better;
 1.0 = the dataset's recorded business-as-usual operation). Windows: dev = steps 0–167
 (selection), final = 0–719 (evaluation-only). Deep narrative with per-phase detail:
 [`research-log.md`](research-log.md). **None of this is a savings claim.**
@@ -59,6 +59,23 @@ cost bottoms early (20k–40k) and drifts up — training trades cost for comfor
    have kept three phases of autonomous execution reproducible — which is why the
    negative results above are trustworthy.
 
+## Week 4 forecasting
+
+Rolling-origin evidence covers 12 expanding folds, 480 forecast origins, and 1,434
+valid labelled `(origin, horizon)` pairs per model/target. Solar selection uses daylight
+origins and raw CSV generation units; demand selection uses all origins.
+
+| Target | Frozen selection | MAE | Mean pinball | Coverage 90% / 50% | Finding |
+| --- | --- | ---: | ---: | ---: | --- |
+| Solar generation | 24-hour persistence | 44.1302 | 22.0651 | 0.1241 / 0.1241 | learned variants failed competitiveness/calibration |
+| Non-shiftable load | Linear quantile | 0.2392 | 0.0993 | 0.8849 / 0.4812 | calibrated and competitive learned winner |
+| Cooling demand | last-value persistence | 1.2230 | 0.6115 | 0 / 0 | learned point forecasts improved MAE but failed interval bars |
+
+This is a mixed result, not a blanket forecasting success. Only the selected load model
+is calibrated. Solar/cooling use the plan's declared persistence fallback, producing
+degenerate intervals that Week 5 must diagnose explicitly. Full evidence and limitations:
+[`phase-reviews/week4-review.md`](phase-reviews/week4-review.md).
+
 ## Where the evidence lives
 
 > `results/` is currently **cleared for regeneration** (see `results/results-desc.md`).
@@ -71,4 +88,6 @@ cost bottoms early (20k–40k) and drifts up — training trades cost for comfor
 - Tables: `results/tables/{baseline_comparison,ppo_multiseed_summary,ppo_vs_baselines}.csv`.
 - Figures: `results/figures/` (cost bars, 48 h demand overlays, SoC and temperature traces,
   return and KPI curves per seed).
-- Forecasting (Week 4) and uncertainty-aware PPO (Week 5): **no results yet** — not started.
+- Forecasting: `results/runs/forecasting/`, `forecast_model_comparison.csv`,
+  `forecast_calibration_by_hour.csv`, and five `forecast_*.png` figures.
+- Uncertainty-aware PPO (Week 5): **not started**.

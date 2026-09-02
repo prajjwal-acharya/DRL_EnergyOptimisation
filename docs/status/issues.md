@@ -1,16 +1,14 @@
 # Issues, Anomalies, and Technical Debt
 
-**Last updated:** 1 September 2026. None of these invalidate the results; all are worth
+**Last updated:** 2 September 2026. None of these invalidate the results; all are worth
 knowing before extending the code. Deep detail: [`research-log.md`](research-log.md) §7.
 
 ## Blockers
 
-1. **Weeks 4–5 never executed.** The week-4 autonomous mission blocked on 26 Aug 2026 at
-   its first worker dispatch — the daemon's model route (`stealth/ox-alpha`) was retired
-   by the provider (HTTP 404), exhausting the retry cap before any file was written. The
-   chain script correctly refused to start week 5. Root cause, timeline, and the resume
-   procedure: [`phase-reviews/week4-5-status.md`](phase-reviews/week4-5-status.md).
-   The 30-Sep milestone needs only this forecasting module.
+1. **No active implementation blocker.** Week 4 is complete. Week 5 remains unstarted and
+   must preserve the mixed forecast result rather than assuming all selected intervals
+   are calibrated. The earlier failed automation attempt remains historical provenance in
+   [`phase-reviews/week4-5-status.md`](phase-reviews/week4-5-status.md).
 
 ## Known anomalies (verified against primary artifacts)
 
@@ -21,10 +19,8 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
    **hot** band only (matches the CMDP constraint); CityLearn's `discomfort_proportion`
    counts hot + cold. B1/B2 show 0 derived violation hours while CityLearn reports
    ~97 % (cold) discomfort. Always state which definition a number comes from.
-4. **Erratum in the week-3 review:** final-window grid exceedances are written
-   "123/102/82 (seeds 42/43/44)"; the artifacts say **123/82/102** (seeds 43/44
-   transposed). To be fixed in the Week-4 commit alongside the two "49-dim → 29" doc
-   corrections scheduled there.
+4. **Resolved Week-3 documentation errata:** the observation is now documented as 29
+   slots and final grid exceedances as 123/82/102 for seeds 42/43/44.
 5. **Reward punishes overheating only.** Cold-side discomfort costs nothing in the CMDP
    reward (only via the energy term) — which is exactly how B1/B2 end up over-cooling.
    Deliberate (June, cooling-dominated) but must be stated wherever comfort is reported.
@@ -36,11 +32,9 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
 ## Technical debt / small stuff
 
 7. `train_stdout.log` exists only for seed 42 (seeds 43/44 have none).
-8. Stale wording: "49-dim" observation in two week-3 docs (correct = 29 slots); the
-   `cmdp-spec.md` hour annotation says h ∈ {0–23} while the dataset/observations run
+8. The `cmdp-spec.md` hour annotation says h ∈ {0–23} while the dataset/observations run
    1–24 (the frozen normalisation offset 1 / scale 23 is correct).
-9. The week-4/5 phase gates (`scripts/forecasting/17_gate_week4.py`, `20_gate_week5.py`) do not
-   exist yet — they are phase deliverables.
+9. The Week-4 gate now exists and passes; the Week-5 gate remains a Week-5 deliverable.
 10. Resolved 2026-09-01: the agent-conductor wrapper layer (formerly `automation/`)
     was removed; this repo is executed by hand, so the space in the path no longer
     matters.
@@ -84,3 +78,16 @@ knowing before extending the code. Deep detail: [`research-log.md`](research-log
     output directory as an informational field — cosmetic; retrain seed 42 only
     if a perfectly uniform artifact set is wanted. Lesson recorded: path
     migrations must grep for constructed paths, not just path strings.
+
+16. **Week-4 plan boundary correction (2026-09-02):** the original plan claimed 480 × 3
+    = 1,440 evaluated pairs, but horizons beyond row 719 have no truth labels. The code,
+    plan, metadata, and gate now agree on 1,434 honest pairs (479/478/477 by horizon).
+
+17. **Forecast calibration limitation:** only non-shiftable load has a selected calibrated
+    learned model. Solar and cooling shipped persistence under the pre-registered fallback,
+    so their interval widths are zero. The required review wording is explicitly qualified;
+    Week 5 must retain this as a feature-degeneracy finding.
+
+18. **Forecast cold start:** the first 24 control steps have no pre-dataset target history.
+    `ForecastProvider` uses a documented current-value persistence fallback with
+    degenerate intervals for steps 0–23, then switches to the selected models.

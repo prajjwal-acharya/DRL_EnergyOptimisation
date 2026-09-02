@@ -1,0 +1,88 @@
+experiment_name: week4-probabilistic-forecasting
+dataset_path: data/raw/citylearn_challenge_2023_phase_1
+random_seed: 42
+device: cpu
+targets:
+  - solar_generation
+  - non_shiftable_load
+  - cooling_demand
+horizons: [1, 2, 3]
+quantiles: [0.05, 0.25, 0.50, 0.75, 0.95]
+folds:
+  initial_train_size: 240
+  fold_size: 40
+  fold_count: 12
+  internal_validation_fraction: 0.20
+features:
+  static:
+    - sin_hour
+    - cos_hour
+    - day_type
+    - outdoor_dry_bulb_temperature
+    - diffuse_solar_irradiance
+    - direct_solar_irradiance
+    - outdoor_dry_bulb_temperature_predicted_1
+    - outdoor_dry_bulb_temperature_predicted_2
+    - outdoor_dry_bulb_temperature_predicted_3
+    - diffuse_solar_irradiance_predicted_1
+    - diffuse_solar_irradiance_predicted_2
+    - diffuse_solar_irradiance_predicted_3
+    - direct_solar_irradiance_predicted_1
+    - direct_solar_irradiance_predicted_2
+    - direct_solar_irradiance_predicted_3
+    - electricity_pricing
+    - electricity_pricing_predicted_1
+    - electricity_pricing_predicted_2
+    - electricity_pricing_predicted_3
+    - carbon_intensity
+    - target_current
+    - target_lag_24
+  sequence:
+    length: 24
+    columns:
+      - target
+      - outdoor_dry_bulb_temperature
+      - diffuse_solar_irradiance
+      - direct_solar_irradiance
+      - electricity_pricing
+models:
+  order:
+    - persistence_last
+    - persistence_24h
+    - climatology_hourly
+    - linear_quantile
+    - gru_quantile
+  linear_quantile:
+    learning_rate: 0.01
+    steps: 2000
+  gru_quantile:
+    hidden_size: 32
+    learning_rate: 0.001
+    batch_size: 64
+    max_epochs: 200
+    patience: 10
+    validation_fraction: 0.20
+calibration:
+  method: split_conformal_absolute_residual
+  variants: [linear_quantile, gru_quantile]
+  central_intervals:
+    - coverage: 0.90
+      lower_quantile: 0.05
+      upper_quantile: 0.95
+    - coverage: 0.50
+      lower_quantile: 0.25
+      upper_quantile: 0.75
+selection:
+  coverage_90_min: 0.85
+  coverage_90_max: 0.95
+  coverage_50_min: 0.42
+  coverage_50_max: 0.58
+  competitive_metric: median_mae_average_over_horizons
+  objective: mean_pinball_average_over_quantiles_and_horizons
+  tie_break: mean_width_90
+  solar_scope: daylight
+outputs:
+  run_root: results/runs/forecasting
+  tables_dir: results/tables
+  figures_dir: results/figures
+  selection_path: results/runs/forecasting/selected_models.json

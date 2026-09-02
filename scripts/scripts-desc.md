@@ -3,7 +3,7 @@
 Numbering is sequential in execution order — also the recommended reading
 order — and scripts live in phase subfolders: `foundation/` (01–05, Week 1) ·
 `cmdp_baselines/` (06–08, Week 2) · `standard_ppo/` (09–14, Week 3) ·
-`forecasting/` (15–17, Week 4, planned) · `uncertainty_aware_ppo/`
+`forecasting/` (15–17, Week 4, complete) · `uncertainty_aware_ppo/`
 (18–20, Week 5, planned). The gate names (`gate_weekN`) carry the phase, so
 the numbers never skip.
 
@@ -41,13 +41,18 @@ never in code.
 | `13_compare_ppo.py` | Builds the multi-seed summary and the PPO-vs-baselines table/figure (baseline table consumed read-only). | `results/tables/ppo_*.csv`, `results/figures/ppo_vs_baselines_cost.png` | seconds |
 | `14_gate_week3.py` | Week-3 phase gate: config SHA vs run metadata (incl. the documented migration legacy hash), independent re-execution of the selection rule, final-window artifact shape, week-2 evidence byte-identity, review doc. | — (exit code) | seconds |
 
-## Weeks 4–5 — Planned (not yet implemented)
+## Week 4 — Probabilistic Forecasting (complete)
+
+| Script | Significance | Writes | Runtime |
+| --- | --- | --- | --- |
+| `15_train_forecasters.py` | Backtests persistence ×2, climatology, linear quantile, GRU quantile, and learned conformal variants on 12 rolling-origin folds. | `results/runs/forecasting/` | ~5 min CPU |
+| `16_compare_forecasters.py` | Executes the frozen calibration/competitiveness rule, refits winners, and generates the Week-5 provider artifacts. | forecast tables, figures, `selected_models.json`, refits | seconds |
+| `17_gate_week4.py` | Checks 1,434 valid boundary-aware pairs per model/target, hashes, monotonicity, selection traces, docs, and prior evidence. | — | seconds |
+
+## Week 5 — Planned
 
 | Script (planned) | Significance |
 | --- | --- |
-| `15_train_forecasters.py` | Backtests the five-rung forecasting ladder (persistence ×2, climatology, linear quantile, GRU quantile) per target under the frozen 12-fold rolling-origin scheme. Spec: `docs/plans/week4-implementation-plan.md`. |
-| `16_compare_forecasters.py` | Executes the frozen selection rule mechanically → `selected_models.json`, forecast tables/figures. |
-| `17_gate_week4.py` | Week-4 phase gate (config hash, 480×3 row arithmetic, quantile monotonicity, weeks 1–3 byte-identity). |
 | `18_compute_forecast_feature_stats.py` | One-shot generator of the frozen forecast-feature normalisation for both Week-5 arms. Spec: `docs/plans/week5-implementation-plan.md`. |
 | `19_compare_rq1.py` | The RQ1 matched-pair comparison + pre-registered verdict (`rq1_verdict.json`). |
 | `20_gate_week5.py` | Week-5 phase gate (arm-config identity, feature-matrix hashes, verdict rule hash). |
